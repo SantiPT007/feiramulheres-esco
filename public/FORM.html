@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Formulário TIC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+    --primary: #6a11cb;
+    --secondary: #2575fc;
+    --accent: #1cc88a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: #fff;
+    width: 95%;
+    max-width: 520px;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,.25);
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+h2 { text-align: center; color: #333; }
+
+.progress {
+    height: 8px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--secondary));
+    transition: width 0.3s ease;
+}
+
+label { margin-top: 15px; font-weight: bold; display: block; }
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 2px rgba(37,117,252,0.15);
+}
+
+.range-value {
+    text-align: center;
+    font-weight: bold;
+    color: var(--secondary);
+    margin-top: 5px;
+    animation: pulse 0.3s;
+}
+
+@keyframes pulse {
+    from { transform: scale(1.1); }
+    to   { transform: scale(1); }
+}
+
+button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.hidden { display: none !important; }
+
+.success-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.success-box {
+    background: white;
+    padding: 32px 28px 28px;
+    border-radius: 20px;
+    text-align: center;
+    animation: pop 0.4s ease;
+    width: 90%;
+    max-width: 360px;
+    cursor: pointer;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+}
+
+.checkbox-group { margin-top: 10px; }
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+}
+
+.check input { width: 16px; height: 16px; }
+
+.success-box h3 { margin: 0 0 12px 0; font-size: 20px; }
+.success-box p  { margin: 0; font-size: 15px; }
+
+.error-msg {
+    color: #e53e3e;
+    font-size: 13px;
+    margin-top: 8px;
+    display: none;
+}
+
+.api-status {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+}
+
+.api-status.ok    { color: #1cc88a; }
+.api-status.error { color: #e53e3e; }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h2>Formulário TIC</h2>
+
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <form id="form" novalidate>
+
+    <label>És aluno ou docente? *</label>
+    <select id="tipo" required>
+      <option value="">Seleciona</option>
+      <option value="aluno">Aluno</option>
+      <option value="docente">Docente</option>
+    </select>
+
+    <label>Nome *</label>
+    <input type="text" id="nome" required placeholder="O teu nome completo">
+
+    <div id="campoTurma" class="hidden">
+      <label>Turma *</label>
+      <input type="text" id="turma" placeholder="ex: 10ºA">
+    </div>
+
+    <label>Área de interesse em TIC</label>
+    <select id="area">
+      <option value="Programação">Programação</option>
+      <option value="Inteligência Artificial">Inteligência Artificial</option>
+      <option value="Jogos Digitais">Jogos Digitais</option>
+      <option value="Redes">Redes</option>
+      <option value="Multimédia">Multimédia</option>
+      <option value="Robótica">Robótica</option>
+    </select>
+
+    <label>Nível de interesse em TIC</label>
+    <input type="range" min="0" max="10" value="5" id="range">
+    <div class="range-value" id="rangeValue">5 / 10</div>
+
+    <label>Já tiveste contacto com programação?</label>
+    <select id="programacao">
+      <option value="nao">Não</option>
+      <option value="sim">Sim</option>
+    </select>
+
+    <div id="linguagens" class="hidden">
+      <label>Linguagens conhecidas</label>
+      <div class="checkbox-group">
+        <label class="check"><input type="checkbox" value="Python"><span>Python</span></label>
+        <label class="check"><input type="checkbox" value="JavaScript"><span>JavaScript</span></label>
+        <label class="check"><input type="checkbox" value="HTML/CSS"><span>HTML/CSS</span></label>
+        <label class="check"><input type="checkbox" value="Scratch"><span>Scratch</span></label>
+      </div>
+    </div>
+
+    <label>Mulher inspiradora na tecnologia</label>
+    <input type="text" id="mulher" placeholder="ex: Ada Lovelace">
+
+    <label>Comentário ou sugestão</label>
+    <textarea id="comentario" rows="4" placeholder="Escreve aqui..."></textarea>
+
+    <div class="error-msg" id="errorMsg">Ocorreu um erro ao submeter. Tenta novamente.</div>
+
+    <button type="submit" id="submitBtn">Submeter</button>
+    <p class="api-status" id="apiStatus">A verificar ligação ao servidor...</p>
+  </form>
+</div>
+
+<!-- Success Modal -->
+<div class="success-modal hidden" id="modal">
+  <div class="success-box" id="successBox">
+    <h3>✅ Submissão concluída</h3>
+    <p>Obrigado pela participação.<br><small style="color:#888">Clica para fechar</small></p>
+  </div>
+</div>
+
+<script>
+// ── Config ──────────────────────────────────────────────────────
+const API_BASE = '/api';
+
+// ── Elements ────────────────────────────────────────────────────
+const form       = document.getElementById('form');
+const modal      = document.getElementById('modal');
+const successBox = document.getElementById('successBox');
+const range      = document.getElementById('range');
+const rangeValue = document.getElementById('rangeValue');
+const progSelect = document.getElementById('programacao');
+const linguagens = document.getElementById('linguagens');
+const progressBar= document.getElementById('progressBar');
+const tipo       = document.getElementById('tipo');
+const campoTurma = document.getElementById('campoTurma');
+const turmaInput = document.getElementById('turma');
+const area       = document.getElementById('area');
+const submitBtn  = document.getElementById('submitBtn');
+const errorMsg   = document.getElementById('errorMsg');
+const apiStatus  = document.getElementById('apiStatus');
+
+// ── Progress bar ─────────────────────────────────────────────────
+const allFields = document.querySelectorAll('input:not([type=checkbox]):not([type=range]), select, textarea');
+allFields.forEach(f => f.addEventListener('input', updateProgress));
+
+function updateProgress() {
+  let total = 0, filled = 0;
+  allFields.forEach(f => {
+    if (f.closest('.hidden')) return;
+    total++;
+    if (f.value.trim()) filled++;
+  });
+  progressBar.style.width = total ? (filled / total * 100) + '%' : '0%';
+}
+
+// ── Range ────────────────────────────────────────────────────────
+range.addEventListener('input', () => { rangeValue.textContent = range.value + ' / 10'; });
+
+// ── Show/hide conditional fields ─────────────────────────────────
+progSelect.addEventListener('change', () => {
+  linguagens.classList.toggle('hidden', progSelect.value !== 'sim');
+  updateProgress();
+});
+
+tipo.addEventListener('change', () => {
+  campoTurma.classList.add('hidden');
+  turmaInput.required = false;
+
+  const admin = area.querySelector('option[value="Administrativa"]');
+  if (admin) admin.remove();
+
+  if (tipo.value === 'aluno') {
+    campoTurma.classList.remove('hidden');
+    turmaInput.required = true;
+  }
+  if (tipo.value === 'docente') {
+    const opt = document.createElement('option');
+    opt.value = 'Administrativa';
+    opt.textContent = 'Administrativa';
+    area.appendChild(opt);
+  }
+  updateProgress();
+});
+
+// ── Server health check ──────────────────────────────────────────
+async function checkServer() {
+  try {
+    const res = await fetch(`${API_BASE}/estatisticas`, { signal: AbortSignal.timeout(3000) });
+    if (res.ok) {
+      apiStatus.textContent = '🟢 Servidor ligado';
+      apiStatus.className = 'api-status ok';
+    } else { throw new Error(); }
+  } catch {
+    apiStatus.textContent = '🔴 Servidor não encontrado – inicia o server.js';
+    apiStatus.className = 'api-status error';
+  }
+}
+checkServer();
+
+// ── Form Submit ──────────────────────────────────────────────────
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  errorMsg.style.display = 'none';
+
+  // Basic validation
+  const nomeVal = document.getElementById('nome').value.trim();
+  const tipoVal = tipo.value;
+  if (!tipoVal || !nomeVal) {
+    errorMsg.textContent = 'Por favor preenche os campos obrigatórios (*)';
+    errorMsg.style.display = 'block';
+    return;
+  }
+  if (tipoVal === 'aluno' && !turmaInput.value.trim()) {
+    errorMsg.textContent = 'Alunos devem indicar a turma.';
+    errorMsg.style.display = 'block';
+    return;
+  }
+
+  // Collect checked languages
+  const selectedLangs = [...document.querySelectorAll('#linguagens input[type=checkbox]:checked')]
+    .map(cb => cb.value);
+
+  const payload = {
+    tipo:        tipoVal,
+    nome:        nomeVal,
+    turma:       turmaInput.value.trim() || null,
+    area:        area.value,
+    nivel:       Number(range.value),
+    programacao: progSelect.value,
+    linguagens:  selectedLangs.length ? selectedLangs : null,
+    mulher:      document.getElementById('mulher').value.trim() || null,
+    comentario:  document.getElementById('comentario').value.trim() || null,
+  };
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'A enviar...';
+
+  try {
+    const res = await fetch(`${API_BASE}/submissoes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.erro || 'Erro desconhecido');
+    }
+
+    // Show success
+    modal.classList.remove('hidden');
+    form.reset();
+    progressBar.style.width = '0%';
+    linguagens.classList.add('hidden');
+    campoTurma.classList.add('hidden');
+    rangeValue.textContent = '5 / 10';
+
+  } catch (err) {
+    errorMsg.textContent = 'Erro: ' + err.message;
+    errorMsg.style.display = 'block';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submeter';
+  }
+});
+
+successBox.addEventListener('click', () => modal.classList.add('hidden'));
+</script>
+</body>
+</html>

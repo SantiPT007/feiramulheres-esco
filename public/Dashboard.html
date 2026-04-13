@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel TIC - Slides</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1a0b2e 0%, #2d1b3b 100%);
+    color: white;
+    line-height: 1.4;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(219, 39, 119, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
+}
+
+.slides-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.slide.leaving {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+/* Cores dos slides - Tema Rosa */
+.slide-1 {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.95), rgba(219, 39, 119, 0.95));
+}
+
+.slide-2 {
+    background: linear-gradient(135deg, rgba(244, 114, 182, 0.95), rgba(217, 70, 239, 0.95));
+}
+
+.slide-3 {
+    background: linear-gradient(135deg, rgba(192, 38, 211, 0.95), rgba(168, 85, 247, 0.95));
+}
+
+.slide-4 {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(124, 58, 237, 0.95));
+}
+
+.slide-5 {
+    background: linear-gradient(135deg, rgba(109, 40, 217, 0.95), rgba(91, 33, 182, 0.95));
+}
+
+.slide-6 {
+    background: linear-gradient(135deg, rgba(190, 24, 93, 0.95), rgba(157, 23, 77, 0.95));
+}
+
+.slide-content {
+    max-width: 1400px;
+    width: 95%;
+    height: 90%;
+    padding: 30px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.slide-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ec4899, #a855f7, #ec4899);
+}
+
+.slide-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #fff, #f0abfc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    padding-bottom: 15px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.slide-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #f472b6, transparent);
+}
+
+/* Slide 1: Estatísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin: 20px 0;
+    flex: 1;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 25px;
+    border-radius: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+}
+
+.stat-item:hover::before {
+    transform: translateX(100%);
+    transition: transform 0.8s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 30px rgba(236, 72, 153, 0.2);
+}
+
+.stat-value {
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    letter-spacing: -1px;
+}
+
+.stat-label {
+    font-size: 14px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #f0abfc;
+    text-align: center;
+}
+
+/* Slide 2: Tabela */
+.table-container {
+    width: 100%;
+    height: calc(100% - 70px);
+    overflow-y: auto;
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    flex: 1;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.05);
+    min-height: 400px;
+}
+
+.data-table th {
+    background: rgba(255, 255, 255, 0.12);
+    padding: 18px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 16px;
+    color: #f0abfc;
+    position: sticky;
+    top: 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.data-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 15px;
+}
+
+.data-table tr:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.empty-table-message {
+    padding: 50px 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-table-message svg {
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-table-message h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #f0abfc;
+}
+
+/* Slide 3: Gráficos */
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    height: calc(100% - 70px);
+    flex: 1;
+}
+
+.chart {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 25px;
+    border-radius: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #f0abfc;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.chart-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.empty-chart {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-chart svg {
+    margin-bottom: 15px;
+    opacity: 0.4;
+}
+
+.empty-chart p {
+    font-size: 14px;
+    max-width: 200px;
+}
+
+/* Slide 4: Mulheres Inspiradoras */
+.mulheres-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    height: calc(100% - 70px);
+    flex: 1;
+}
+
+.mulher-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 25px;
+    border-radius: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.mulher-card:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ec4899;
+    box-shadow: 0 15px 30px rgba(236, 72, 153, 0.2);
+}
+
+.mulher-placeholder {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.mulher-placeholder svg {
+    margin-bottom: 15px;
+    opacity: 0.4;
+}
+
+.mulher-placeholder h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #f0abfc;
+}
+
+.mulher-placeholder p {
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Slide 5: Áreas de Interesse */
+.areas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    height: calc(100% - 70px);
+    flex: 1;
+}
+
+.area-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.area-item:hover {
+    border-color: #a855f7;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+}
+
+.area-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    opacity: 0.9;
+}
+
+.area-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #f0abfc;
+}
+
+.area-count {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    opacity: 0.3;
+}
+
+/* Navegação */
+.slide-indicators {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 12px 20px;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.indicator::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.indicator:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.2);
+}
+
+.indicator.active {
+    background: #ec4899;
+    transform: scale(1.3);
+    box-shadow: 0 0 12px rgba(236, 72, 153, 0.5);
+}
+
+.indicator.active::after {
+    border-color: rgba(236, 72, 153, 0.3);
+}
+
+.slide-counter {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #f0abfc;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px 16px;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Pulsação para elementos vazios */
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+.pulse {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+/* Responsivo */
+@media (max-width: 1200px) {
+    .stats-grid,
+    .mulheres-grid,
+    .areas-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .charts-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .chart {
+        height: 48%;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-grid,
+    .mulheres-grid,
+    .areas-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .slide-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+    
+    .stat-value {
+        font-size: 36px;
+    }
+    
+    .slide-content {
+        padding: 20px;
+        width: 97%;
+        height: 92%;
+    }
+    
+    .slide-counter {
+        top: 15px;
+        right: 15px;
+        font-size: 16px;
+    }
+    
+    .slide-indicators {
+        bottom: 15px;
+        padding: 10px 16px;
+    }
+    
+    .indicator {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+/* Slide 6: Frases Inspiradoras */
+.quotes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 18px;
+    flex: 1;
+    height: calc(100% - 70px);
+}
+
+.quote-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.quote-card::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 14px;
+    font-size: 90px;
+    color: rgba(255, 255, 255, 0.08);
+    font-family: Georgia, serif;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.quote-card:hover {
+    transform: translateY(-6px);
+    background: rgba(255, 255, 255, 0.16);
+    border-color: #ec4899;
+    box-shadow: 0 15px 30px rgba(236, 72, 153, 0.2);
+}
+
+.quote-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.92);
+    font-style: italic;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.quote-author {
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #f0abfc;
+    letter-spacing: 0.5px;
+}
+
+.quote-role {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+    margin-top: 2px;
+}
+
+/* Barra de rolagem personalizada */
+.table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #ec4899, #a855f7);
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #db2777, #9333ea);
+}
+</style>
+</head>
+<body>
+<div class="slides-container">
+    
+    <!-- Elementos decorativos flutuantes -->
+    <div class="floating-element" style="top: 5%; left: 5%;">
+        <div class="heart">❤️</div>
+    </div>
+    <div class="floating-element" style="top: 15%; right: 5%;">
+        <div class="sparkle">✨</div>
+    </div>
+
+    <!-- Slide 1: Estatísticas -->
+    <div class="slide slide-1 active">
+        <div class="slide-content">
+            <h1 class="slide-title">📊 Estatísticas TIC</h1>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Respostas Totais</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Alunos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Docentes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">0/10</div>
+                    <div class="stat-label">Interesse Médio</div>
+                </div>
+            </div>
+            <div class="pulse" style="color: rgba(255,255,255,0.5); font-size: 14px; text-align: center; margin-top: 10px;">
+                Aguardando dados do formulário...
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Submissões -->
+    <div class="slide slide-2">
+        <div class="slide-content">
+            <h1 class="slide-title">📋 Últimas Submissões</h1>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Perfil</th>
+                            <th>Área de Interesse</th>
+                            <th>Nível</th>
+                            <th>Contacto Prog.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-table-message">
+                                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    <h3>Nenhuma submissão</h3>
+                                    <p>As submissões aparecerão aqui quando o formulário for preenchido</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Gráficos -->
+    <div class="slide slide-3">
+        <div class="slide-content">
+            <h1 class="slide-title">📈 Análise de Dados</h1>
+            <div class="charts-container">
+                <div class="chart">
+                    <h3 class="chart-title">Distribuição por Área</h3>
+                    <div class="chart-content">
+                        <div class="empty-chart">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L12 22" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M22 12L2 12" stroke="currentColor" stroke-width="1.5"/>
+                                <rect x="5" y="14" width="3" height="6" fill="currentColor" opacity="0.3"/>
+                                <rect x="10" y="8" width="3" height="12" fill="currentColor" opacity="0.3"/>
+                                <rect x="15" y="4" width="3" height="16" fill="currentColor" opacity="0.3"/>
+                            </svg>
+                            <p>Gráfico será gerado automaticamente</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart">
+                    <h3 class="chart-title">Níveis de Interesse</h3>
+                    <div class="chart-content">
+                        <div class="empty-chart">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                <circle cx="12" cy="12" r="6" fill="currentColor" opacity="0.3"/>
+                            </svg>
+                            <p>Aguardando dados suficientes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Mulheres Inspiradoras -->
+    <div class="slide slide-4">
+        <div class="slide-content">
+            <h1 class="slide-title">🌟 Mulheres na Tecnologia</h1>
+            <div class="mulheres-grid">
+                <div class="mulher-card">
+                    <div class="mulher-placeholder">
+                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M6 20C6 16.6863 8.68629 14 12 14C15.3137 14 18 16.6863 18 20" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                        <h3>Próxima Referência</h3>
+                        <p>Aguarde submissões</p>
+                    </div>
+                </div>
+                <div class="mulher-card">
+                    <div class="mulher-placeholder">
+                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M6 20C6 16.6863 8.68629 14 12 14C15.3137 14 18 16.6863 18 20" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                        <h3>Próxima Referência</h3>
+                        <p>Aguarde submissões</p>
+                    </div>
+                </div>
+                <div class="mulher-card">
+                    <div class="mulher-placeholder">
+                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M6 20C6 16.6863 8.68629 14 12 14C15.3137 14 18 16.6863 18 20" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                        <h3>Próxima Referência</h3>
+                        <p>Aguarde submissões</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Áreas de Interesse -->
+    <div class="slide slide-5">
+        <div class="slide-content">
+            <h1 class="slide-title">💻 Áreas de Interesse</h1>
+            <div class="areas-grid">
+                <div class="area-item">
+                    <div class="area-icon">👩‍💻</div>
+                    <div class="area-name">Programação</div>
+                    <div class="area-count">0</div>
+                </div>
+                <div class="area-item">
+                    <div class="area-icon">🤖</div>
+                    <div class="area-name">Inteligência Artificial</div>
+                    <div class="area-count">0</div>
+                </div>
+                <div class="area-item">
+                    <div class="area-icon">🎮</div>
+                    <div class="area-name">Jogos Digitais</div>
+                    <div class="area-count">0</div>
+                </div>
+                <div class="area-item">
+                    <div class="area-icon">🌐</div>
+                    <div class="area-name">Redes</div>
+                    <div class="area-count">0</div>
+                </div>
+                <div class="area-item">
+                    <div class="area-icon">🎨</div>
+                    <div class="area-name">Multimédia</div>
+                    <div class="area-count">0</div>
+                </div>
+                <div class="area-item">
+                    <div class="area-icon">⚙️</div>
+                    <div class="area-name">Robótica</div>
+                    <div class="area-count">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Frases Inspiradoras -->
+    <div class="slide slide-6">
+        <div class="slide-content">
+            <h1 class="slide-title">💬 Vozes que Inspiram</h1>
+            <div class="quotes-grid">
+
+                <div class="quote-card">
+                    <p class="quote-text">A tecnologia influencia profundamente quem somos e como vivemos. Se as mulheres não participam na sua criação, não estão a contribuir para moldar o futuro.</p>
+                    <div>
+                        <div class="quote-author">Anita Borg</div>
+                        <div class="quote-role">Cientista Computacional · Fundadora do Instituto Anita Borg</div>
+                    </div>
+                </div>
+
+                <div class="quote-card">
+                    <p class="quote-text">Nada na vida deve ser temido, somente compreendido. Agora é hora de compreender mais para temer menos.</p>
+                    <div>
+                        <div class="quote-author">Marie Curie</div>
+                        <div class="quote-role">Física e Química · 2× Prémio Nobel</div>
+                    </div>
+                </div>
+
+                <div class="quote-card">
+                    <p class="quote-text">Aceitamos a educação como meio de superar as limitações que uma sociedade preconceituosa tem se esforçado para colocar em cima de nós.</p>
+                    <div>
+                        <div class="quote-author">Evelyn Granville</div>
+                        <div class="quote-role">Matemática · 2.ª mulher afro-americana com PhD em Matemática</div>
+                    </div>
+                </div>
+
+                <div class="quote-card">
+                    <p class="quote-text">Se não é divertido, porque fazer? Eu tenho muita diversão a trabalhar em computadores.</p>
+                    <div>
+                        <div class="quote-author">Grace Hopper</div>
+                        <div class="quote-role">Almirante da Marinha · Inventora do primeiro compilador</div>
+                    </div>
+                </div>
+
+                <div class="quote-card">
+                    <p class="quote-text">O software é como a entropia: é difícil de agarrar, pesa quase nada, e obedece à segunda lei da termodinâmica — tende sempre a aumentar.</p>
+                    <div>
+                        <div class="quote-author">Norman Augustine</div>
+                        <div class="quote-role">citado por <span style="color:#f0abfc">Radia Perlman</span> · Inventora do algoritmo Spanning Tree</div>
+                    </div>
+                </div>
+
+                <div class="quote-card">
+                    <p class="quote-text">Sempre quis ser matemática ou cientista. Cresci durante a Segunda Guerra Mundial e a ciência era muito importante para todos nós.</p>
+                    <div>
+                        <div class="quote-author">Katherine Johnson</div>
+                        <div class="quote-role">Matemática da NASA · Calculou a trajetória do Apollo 11</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Indicadores de slide -->
+    <div class="slide-indicators">
+        <div class="indicator active" data-slide="0"></div>
+        <div class="indicator" data-slide="1"></div>
+        <div class="indicator" data-slide="2"></div>
+        <div class="indicator" data-slide="3"></div>
+        <div class="indicator" data-slide="4"></div>
+        <div class="indicator" data-slide="5"></div>
+    </div>
+
+    <!-- Contador -->
+    <div class="slide-counter">1/6</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const slides = document.querySelectorAll('.slide');
+    const indicators = document.querySelectorAll('.indicator');
+    const slideCounter = document.querySelector('.slide-counter');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    let slideInterval;
+    const slideDuration = 7000; // 7 segundos por slide
+
+    // Inicializar
+    updateCounter();
+    startSlideShow();
+
+    // Função para avançar para o próximo slide
+    function nextSlide() {
+        // Marcar slide atual como saindo
+        slides[currentSlide].classList.add('leaving');
+        slides[currentSlide].classList.remove('active');
+        
+        // Atualizar indicador atual
+        indicators[currentSlide].classList.remove('active');
+
+        // Calcular próximo slide
+        currentSlide = (currentSlide + 1) % totalSlides;
+
+        // Adicionar classe active ao novo slide
+        setTimeout(() => {
+            slides[currentSlide].classList.remove('leaving');
+            slides[currentSlide].classList.add('active');
+            
+            // Atualizar indicador
+            indicators[currentSlide].classList.add('active');
+            
+            // Atualizar contador
+            updateCounter();
+        }, 800);
+    }
+
+    // Função para ir para um slide específico
+    function goToSlide(index) {
+        if (index === currentSlide) return;
+
+        // Marcar slide atual como saindo
+        slides[currentSlide].classList.add('leaving');
+        slides[currentSlide].classList.remove('active');
+        indicators[currentSlide].classList.remove('active');
+
+        // Atualizar slide atual
+        currentSlide = index;
+
+        // Adicionar classe active ao novo slide
+        setTimeout(() => {
+            slides[currentSlide].classList.remove('leaving');
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+            updateCounter();
+        }, 800);
+    }
+
+    // Atualizar contador
+    function updateCounter() {
+        slideCounter.textContent = `${currentSlide + 1}/${totalSlides}`;
+    }
+
+    // Iniciar slideshow automático
+    function startSlideShow() {
+        clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, slideDuration);
+    }
+
+    // Pausar slideshow ao passar o mouse
+    const slidesContainer = document.querySelector('.slides-container');
+    slidesContainer.addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
+    });
+
+    // Retomar slideshow ao remover o mouse
+    slidesContainer.addEventListener('mouseleave', () => {
+        startSlideShow();
+    });
+
+    // Adicionar eventos aos indicadores
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            goToSlide(index);
+            startSlideShow(); // Reiniciar intervalo após clique manual
+        });
+    });
+
+    // Adicionar navegação por teclado
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+            nextSlide();
+            startSlideShow();
+        } else if (e.key === 'ArrowLeft') {
+            // Voltar slide
+            let previousSlide = currentSlide - 1;
+            if (previousSlide < 0) previousSlide = totalSlides - 1;
+            goToSlide(previousSlide);
+            startSlideShow();
+        } else if (e.key >= '1' && e.key <= '6') {
+            // Ir diretamente para slide com números 1-5
+            const slideIndex = parseInt(e.key) - 1;
+            if (slideIndex < totalSlides) {
+                goToSlide(slideIndex);
+                startSlideShow();
+            }
+        }
+    });
+
+    // Adicionar efeito de clique nos elementos
+    document.querySelectorAll('.stat-item, .area-item, .mulher-card').forEach(item => {
+        item.addEventListener('click', function(e) {
+            if (e.target.closest('.indicator')) return;
+            
+            this.style.transform = 'scale(0.97)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
+
+    // ── API Config ──────────────────────────────────────────────────
+    const API_BASE = '/api';
+    const REFRESH_MS = 10000; // refresh every 10 seconds
+
+    // ── Area icon map ────────────────────────────────────────────────
+    const areaIcons = {
+        'Programação':           '👩‍💻',
+        'Inteligência Artificial':'🤖',
+        'Jogos Digitais':        '🎮',
+        'Redes':                 '🌐',
+        'Multimédia':            '🎨',
+        'Robótica':              '⚙️',
+        'Administrativa':        '🗂️',
+    };
+
+    // ── Helper: animate number ────────────────────────────────────────
+    function animateNumber(el, target, suffix = '') {
+        const start = parseInt(el.textContent) || 0;
+        const duration = 600;
+        const step = (timestamp, startTime) => {
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            el.textContent = Math.round(start + (target - start) * progress) + suffix;
+            if (progress < 1) requestAnimationFrame(ts => step(ts, startTime));
+        };
+        requestAnimationFrame(ts => step(ts, ts));
+    }
+
+    // ── Slide 1: stats ────────────────────────────────────────────────
+    function updateStats(data) {
+        const statValues = document.querySelectorAll('.stat-value');
+        animateNumber(statValues[0], data.total);
+        animateNumber(statValues[1], data.alunos);
+        animateNumber(statValues[2], data.docentes);
+        statValues[3].textContent = data.avgNivel + '/10';
+
+        const waitingMsg = document.querySelector('.slide-1 .pulse');
+        if (waitingMsg) {
+            waitingMsg.textContent = data.total > 0
+                ? `Última atualização: ${new Date().toLocaleTimeString('pt-PT', {hour:'2-digit',minute:'2-digit'})}`
+                : 'Aguardando dados do formulário...';
+        }
+    }
+
+    // ── Slide 2: table ────────────────────────────────────────────────
+    function updateTable(rows) {
+        const tbody = document.querySelector('.data-table tbody');
+        if (!tbody) return;
+
+        if (!rows || rows.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5">
+                <div class="empty-table-message">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <h3>Nenhuma submissão</h3>
+                    <p>As submissões aparecerão aqui quando o formulário for preenchido</p>
+                </div></td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = rows.map(r => {
+            const langs = r.linguagens ? JSON.parse(r.linguagens).join(', ') : '—';
+            return `<tr>
+                <td>${escapeHtml(r.nome)}</td>
+                <td>${r.tipo === 'aluno' ? '🎓 Aluno' + (r.turma ? ' · ' + escapeHtml(r.turma) : '') : '👨‍🏫 Docente'}</td>
+                <td>${areaIcons[r.area] || '📌'} ${escapeHtml(r.area)}</td>
+                <td><span style="font-weight:700;color:#f0abfc">${r.nivel}/10</span></td>
+                <td>${r.programacao === 'sim' ? '✅ ' + langs : '❌ Não'}</td>
+            </tr>`;
+        }).join('');
+    }
+
+    // ── Slide 3: charts (pure CSS/HTML bar charts) ────────────────────
+    function updateCharts(data) {
+        // Chart 1: Area bar chart
+        const areaChartEl = document.querySelector('.slide-3 .chart:nth-child(1) .chart-content');
+        if (areaChartEl && data.porArea && data.porArea.length > 0) {
+            const maxVal = Math.max(...data.porArea.map(a => a.total));
+            areaChartEl.innerHTML = `
+                <div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-around;gap:6px;padding:8px 0">
+                    ${data.porArea.map(a => `
+                        <div style="display:flex;align-items:center;gap:10px;font-size:13px;">
+                            <span style="width:130px;text-align:right;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${escapeHtml(a.area)}">${escapeHtml(a.area)}</span>
+                            <div style="flex:1;background:rgba(255,255,255,.1);border-radius:6px;overflow:hidden;height:20px">
+                                <div style="height:100%;width:${Math.round((a.total/maxVal)*100)}%;background:linear-gradient(90deg,#ec4899,#a855f7);border-radius:6px;transition:width .6s ease"></div>
+                            </div>
+                            <span style="width:24px;font-weight:700;color:#f0abfc">${a.total}</span>
+                        </div>`).join('')}
+                </div>`;
+        }
+
+        // Chart 2: Interest level donut-like bars
+        const nivelChartEl = document.querySelector('.slide-3 .chart:nth-child(2) .chart-content');
+        if (nivelChartEl && data.nivelDist) {
+            const nd = data.nivelDist;
+            const total = (nd.baixo || 0) + (nd.medio || 0) + (nd.alto || 0);
+            const pct = v => total > 0 ? Math.round((v / total) * 100) : 0;
+
+            nivelChartEl.innerHTML = `
+                <div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:16px 0">
+                    ${[['Baixo (0-3)', nd.baixo||0,'#f43f5e'],['Médio (4-6)', nd.medio||0,'#f59e0b'],['Alto (7-10)', nd.alto||0,'#10b981']].map(([label,val,color]) => `
+                        <div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px">
+                                <span>${label}</span><span style="font-weight:700;color:${color}">${val} (${pct(val)}%)</span>
+                            </div>
+                            <div style="background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;height:22px">
+                                <div style="height:100%;width:${pct(val)}%;background:${color};border-radius:8px;transition:width .6s ease"></div>
+                            </div>
+                        </div>`).join('')}
+                </div>`;
+        }
+    }
+
+    // ── Slide 4: women in tech ────────────────────────────────────────
+    function updateMulheres(mulheres) {
+        const grid = document.querySelector('.mulheres-grid');
+        if (!grid) return;
+
+        // Always show 3 cards, filling empties as placeholders
+        const cards = [];
+        for (let i = 0; i < 3; i++) {
+            const m = mulheres && mulheres[i];
+            if (m) {
+                cards.push(`
+                    <div class="mulher-card">
+                        <div class="mulher-placeholder">
+                            <div style="font-size:52px;margin-bottom:12px">👩‍💻</div>
+                            <h3 style="color:#f0abfc;font-size:17px;text-align:center">${escapeHtml(m.mulher)}</h3>
+                            <p style="color:rgba(255,255,255,.6);font-size:14px">${m.mencoes} menção${m.mencoes !== 1 ? 'ões' : ''}</p>
+                        </div>
+                    </div>`);
+            } else {
+                cards.push(`
+                    <div class="mulher-card">
+                        <div class="mulher-placeholder">
+                            <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M6 20C6 16.6863 8.68629 14 12 14C15.3137 14 18 16.6863 18 20" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            <h3>Próxima Referência</h3>
+                            <p>Aguarde submissões</p>
+                        </div>
+                    </div>`);
+            }
+        }
+        grid.innerHTML = cards.join('');
+    }
+
+    // ── Slide 5: areas grid ───────────────────────────────────────────
+    function updateAreas(porArea) {
+        const areaItems = document.querySelectorAll('.area-item');
+        const areaMap = {};
+        (porArea || []).forEach(a => { areaMap[a.area] = a.total; });
+
+        areaItems.forEach(item => {
+            const nameEl  = item.querySelector('.area-name');
+            const countEl = item.querySelector('.area-count');
+            if (!nameEl || !countEl) return;
+            const name  = nameEl.textContent;
+            const count = areaMap[name] || 0;
+            countEl.textContent = count;
+            countEl.style.opacity = count > 0 ? '1' : '0.3';
+            if (count > 0) item.style.borderColor = '#ec4899';
+            else           item.style.borderColor  = 'transparent';
+        });
+    }
+
+    // ── Utility ───────────────────────────────────────────────────────
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ── Main fetch & update ────────────────────────────────────────────
+    async function fetchAndUpdate() {
+        try {
+            const res  = await fetch(`${API_BASE}/estatisticas`, { signal: AbortSignal.timeout(5000) });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+
+            updateStats(data);
+            updateTable(data.recentes);
+            updateCharts(data);
+            updateMulheres(data.mulheres);
+            updateAreas(data.porArea);
+        } catch (err) {
+            console.warn('Dashboard: falha ao obter dados –', err.message);
+        }
+    }
+
+    // Initial fetch + polling
+    fetchAndUpdate();
+    setInterval(fetchAndUpdate, REFRESH_MS);
+});
+</script>
+</body>
+</html>
