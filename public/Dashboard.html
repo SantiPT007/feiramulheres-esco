@@ -3,1489 +3,491 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel TIC - Slides</title>
+<title>Vozes que Inspiram — Portal TIC</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-body {
-    background: linear-gradient(135deg, #1a0b2e 0%, #2d1b3b 100%);
-    color: white;
-    line-height: 1.4;
-    min-height: 100vh;
-    overflow-x: hidden;
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.25) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(219, 39, 119, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
-}
-
-.slides-container {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-}
-
-.slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.slide.active {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.slide.leaving {
-    transform: translateX(-100%);
-    opacity: 0;
-}
-
-/* Cores dos slides - Tema Rosa */
-.slide-1 {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.95), rgba(219, 39, 119, 0.95));
-}
-
-.slide-2 {
-    background: linear-gradient(135deg, rgba(244, 114, 182, 0.95), rgba(217, 70, 239, 0.95));
-}
-
-.slide-3 {
-    background: linear-gradient(135deg, rgba(192, 38, 211, 0.95), rgba(168, 85, 247, 0.95));
-}
-
-.slide-4 {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(124, 58, 237, 0.95));
-}
-
-.slide-5 {
-    background: linear-gradient(135deg, rgba(109, 40, 217, 0.95), rgba(91, 33, 182, 0.95));
-}
-
-.slide-6 {
-    background: linear-gradient(135deg, rgba(190, 24, 93, 0.95), rgba(157, 23, 77, 0.95));
-}
-
-.slide-7 {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 10, 60, 0.98));
-}
-
-.slide-content {
-    max-width: 1400px;
-    width: 95%;
-    height: 90%;
-    padding: 30px;
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.slide-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #ec4899, #a855f7, #ec4899);
-}
-
-.slide-title {
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 25px;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    background: linear-gradient(135deg, #fff, #f0abfc);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    position: relative;
-    padding-bottom: 15px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.slide-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #f472b6, transparent);
-}
-
-/* Slide 1: Estatísticas */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin: 20px 0;
-    flex: 1;
-}
-
-.stat-item {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 25px;
-    border-radius: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.stat-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transform: translateX(-100%);
-}
-
-.stat-item:hover::before {
-    transform: translateX(100%);
-    transition: transform 0.8s ease;
-}
-
-.stat-item:hover {
-    transform: translateY(-6px);
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 15px 30px rgba(236, 72, 153, 0.2);
-}
-
-.stat-value {
-    font-size: 48px;
-    font-weight: 900;
-    margin-bottom: 8px;
-    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-    color: #fff;
-    letter-spacing: -1px;
-}
-
-.stat-label {
-    font-size: 14px;
-    opacity: 0.9;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #f0abfc;
-    text-align: center;
-}
-
-/* Slide 2: Tabela */
-.table-container {
-    width: 100%;
-    height: calc(100% - 70px);
-    overflow-y: auto;
-    border-radius: 15px;
-    background: rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    flex: 1;
-}
-
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: rgba(255, 255, 255, 0.05);
-    min-height: 400px;
-}
-
-.data-table th {
-    background: rgba(255, 255, 255, 0.12);
-    padding: 18px 20px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 16px;
-    color: #f0abfc;
-    position: sticky;
-    top: 0;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-.data-table td {
-    padding: 18px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 15px;
-}
-
-.data-table tr:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.empty-table-message {
-    padding: 50px 20px;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.6);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.empty-table-message svg {
-    margin-bottom: 20px;
-    opacity: 0.5;
-}
-
-.empty-table-message h3 {
-    font-size: 22px;
-    margin-bottom: 10px;
-    color: #f0abfc;
-}
-
-/* Slide 3: Gráficos */
-.charts-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-    height: calc(100% - 70px);
-    flex: 1;
-}
-
-.chart {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 25px;
-    border-radius: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.chart-title {
-    font-size: 18px;
-    margin-bottom: 15px;
-    color: #f0abfc;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.chart-content {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 200px;
-}
-
-.empty-chart {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.5);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.empty-chart svg {
-    margin-bottom: 15px;
-    opacity: 0.4;
-}
-
-.empty-chart p {
-    font-size: 14px;
-    max-width: 200px;
-}
-
-/* Slide 4: Mulheres Inspiradoras */
-.mulheres-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    height: calc(100% - 70px);
-    flex: 1;
-}
-
-.mulher-card {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 25px;
-    border-radius: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    transition: all 0.4s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-}
-
-.mulher-card:hover {
-    transform: translateY(-8px);
-    background: rgba(255, 255, 255, 0.15);
-    border-color: #ec4899;
-    box-shadow: 0 15px 30px rgba(236, 72, 153, 0.2);
-}
-
-.mulher-placeholder {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.6);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.mulher-placeholder svg {
-    margin-bottom: 15px;
-    opacity: 0.4;
-}
-
-.mulher-placeholder h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
-    color: #f0abfc;
-}
-
-.mulher-placeholder p {
-    font-size: 14px;
-    text-align: center;
-}
-
-/* Slide 5: Áreas de Interesse */
-.areas-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 20px;
-    height: calc(100% - 70px);
-    flex: 1;
-}
-
-.area-item {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 25px;
-    border-radius: 15px;
-    text-align: center;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.area-item:hover {
-    border-color: #a855f7;
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-5px);
-}
-
-.area-icon {
-    font-size: 32px;
-    margin-bottom: 12px;
-    opacity: 0.9;
-}
-
-.area-name {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #f0abfc;
-}
-
-.area-count {
-    font-size: 28px;
-    font-weight: 700;
-    color: #fff;
-    opacity: 0.3;
-}
-
-/* Navegação */
-.slide-indicators {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 12px;
-    z-index: 1000;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 12px 20px;
-    border-radius: 50px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.indicator::after {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    transition: border-color 0.3s ease;
-}
-
-.indicator:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: scale(1.2);
-}
-
-.indicator.active {
-    background: #ec4899;
-    transform: scale(1.3);
-    box-shadow: 0 0 12px rgba(236, 72, 153, 0.5);
-}
-
-.indicator.active::after {
-    border-color: rgba(236, 72, 153, 0.3);
-}
-
-.slide-counter {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    font-size: 20px;
-    font-weight: 600;
-    color: #f0abfc;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 8px 16px;
-    border-radius: 50px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* Pulsação para elementos vazios */
-@keyframes pulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-}
-
-.pulse {
-    animation: pulse 2s infinite ease-in-out;
-}
-
-/* Responsivo */
-@media (max-width: 1200px) {
-    .stats-grid,
-    .mulheres-grid,
-    .areas-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .charts-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .chart {
-        height: 48%;
-    }
-}
-
-@media (max-width: 768px) {
-    .stats-grid,
-    .mulheres-grid,
-    .areas-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .slide-title {
-        font-size: 28px;
-        margin-bottom: 20px;
-    }
-    
-    .stat-value {
-        font-size: 36px;
-    }
-    
-    .slide-content {
-        padding: 20px;
-        width: 97%;
-        height: 92%;
-    }
-    
-    .slide-counter {
-        top: 15px;
-        right: 15px;
-        font-size: 16px;
-    }
-    
-    .slide-indicators {
-        bottom: 15px;
-        padding: 10px 16px;
-    }
-    
-    .indicator {
-        width: 10px;
-        height: 10px;
-    }
-}
-
-/* Slide 6: Frases Inspiradoras */
-.quotes-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 18px;
-    flex: 1;
-    height: calc(100% - 70px);
-}
-.quote-card {
-    background: rgba(255,255,255,0.1);
-    border: 2px solid rgba(255,255,255,0.15);
-    border-radius: 18px;
-    padding: 22px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-}
-.quote-card::before {
-    content: '"';
-    position: absolute;
-    top: -10px; left: 14px;
-    font-size: 90px;
-    color: rgba(255,255,255,0.08);
-    font-family: Georgia, serif;
-    line-height: 1;
-    pointer-events: none;
-}
-.quote-card:hover {
-    transform: translateY(-6px);
-    background: rgba(255,255,255,0.16);
-    border-color: #ec4899;
-    box-shadow: 0 15px 30px rgba(236,72,153,0.2);
-}
-.quote-text {
-    font-size: 14px; line-height: 1.6;
-    color: rgba(255,255,255,0.92);
-    font-style: italic; flex: 1;
-    display: flex; align-items: center;
-}
-.quote-author { margin-top: 14px; font-size: 13px; font-weight: 700; color: #f0abfc; letter-spacing: 0.5px; }
-.quote-role   { font-size: 11px; color: rgba(255,255,255,0.5); font-weight: 400; margin-top: 2px; }
-
-/* Slide 7: D3 Analysis */
-.d3-slide-inner {
-    flex: 1;
-    height: calc(100% - 70px);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-.d3-kpi-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    flex-shrink: 0;
-}
-.d3-kpi {
-    background: rgba(255,255,255,0.12);
-    border-radius: 14px;
-    padding: 16px 12px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.15);
-}
-.d3-kpi-value {
-    font-size: 32px; font-weight: 900;
-    background: linear-gradient(135deg, #fff, #f0abfc);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.d3-kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #f0abfc; margin-top: 4px; }
-.d3-charts-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    flex-shrink: 0;
-}
-.d3-chart-wide { grid-column: span 2; }
-.d3-chart-card {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 16px;
-    padding: 16px;
-}
-.d3-chart-title {
-    font-size: 14px; font-weight: 700; color: #f0abfc;
-    margin-bottom: 10px; text-align: center;
-}
-.d3-axis text  { fill: rgba(255,255,255,0.65); font-size: 11px; }
-.d3-axis path,
-.d3-axis line  { stroke: rgba(255,255,255,0.2); }
-.d3-grid line  { stroke: rgba(255,255,255,0.08); stroke-dasharray: 3,3; }
-.d3-simulate-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 18px; border-radius: 10px; border: none;
-    background: linear-gradient(135deg, #ec4899, #a855f7);
-    color: #fff; font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: transform 0.2s;
-    flex-shrink: 0; align-self: flex-start;
-}
-.d3-simulate-btn:hover { transform: translateY(-2px); }
-
-/* Barra de rolagem personalizada */
-.table-container::-webkit-scrollbar {
-    width: 8px;
-}
-
-.table-container::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-}
-
-.table-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, #ec4899, #a855f7);
-    border-radius: 4px;
-}
-
-.table-container::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(to bottom, #db2777, #9333ea);
-}
+:root{
+  --bg:#07040f;--s1:rgba(255,255,255,.04);--s2:rgba(255,255,255,.08);
+  --border:rgba(255,255,255,.1);--text:#f0ecff;--muted:rgba(240,236,255,.5);
+  --p1:#c026d3;--p2:#7c3aed;--pink:#f472b6;--cyan:#22d3ee;--gold:#fbbf24;--green:#34d399;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);font-family:'Sora',sans-serif;color:var(--text);
+  width:100vw;height:100vh;overflow:hidden;user-select:none}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+/* TOASTS */
+#toasts{position:fixed;top:24px;left:50%;transform:translateX(-50%);
+  z-index:999;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none}
+.toast{background:rgba(20,10,40,.92);border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(24px);border-radius:40px;padding:12px 28px;
+  font-size:.9rem;font-weight:600;color:var(--text);white-space:nowrap;
+  animation:toastIn .4s cubic-bezier(.34,1.56,.64,1) forwards}
+.toast.out{animation:toastOut .4s ease forwards}
+@keyframes toastIn{from{opacity:0;transform:translateY(-16px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toastOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-10px)}}
+/* SLIDES */
+.slides{position:relative;width:100vw;height:100vh;z-index:1}
+.slide{position:absolute;inset:0;padding:20px 28px 64px;
+  display:flex;flex-direction:column;
+  opacity:0;transform:translateX(100%);
+  transition:opacity .7s ease,transform .7s cubic-bezier(.22,1,.36,1);pointer-events:none}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:auto}
+.slide.leaving{opacity:0;transform:translateX(-8%) scale(.97);pointer-events:none}
+.slide::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none}
+.slide-1::before{background:radial-gradient(ellipse 70% 50% at 20% 30%,rgba(192,38,211,.22) 0%,transparent 70%),radial-gradient(ellipse 60% 60% at 80% 70%,rgba(124,58,237,.18) 0%,transparent 70%)}
+.slide-2::before{background:radial-gradient(ellipse 60% 50% at 80% 20%,rgba(34,211,238,.15) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 20% 80%,rgba(124,58,237,.2) 0%,transparent 70%)}
+.slide-3::before{background:radial-gradient(ellipse 70% 50% at 50% 20%,rgba(251,191,36,.12) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 80% 70%,rgba(192,38,211,.18) 0%,transparent 70%)}
+.slide-4::before{background:radial-gradient(ellipse 60% 60% at 20% 50%,rgba(52,211,153,.12) 0%,transparent 70%),radial-gradient(ellipse 50% 50% at 80% 30%,rgba(124,58,237,.2) 0%,transparent 70%)}
+.slide-5::before{background:radial-gradient(ellipse 80% 50% at 50% 80%,rgba(244,114,182,.15) 0%,transparent 70%),radial-gradient(ellipse 60% 60% at 20% 20%,rgba(124,58,237,.18) 0%,transparent 70%)}
+.slide-6::before{background:radial-gradient(ellipse 60% 50% at 80% 50%,rgba(34,211,238,.12) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 20% 50%,rgba(192,38,211,.18) 0%,transparent 70%)}
+.slide-7::before{background:radial-gradient(ellipse 70% 50% at 30% 50%,rgba(244,114,182,.18) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 70% 50%,rgba(192,38,211,.15) 0%,transparent 70%)}
+.slide-8::before{background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(192,38,211,.1) 0%,transparent 70%)}
+/* HEADER */
+.slide-header{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+.slide-header .label{font-size:.7rem;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);border:1px solid var(--border);
+  border-radius:20px;padding:4px 12px}
+.slide-header h1{font-size:2.1rem;font-weight:800;line-height:1}
+.grad{background:linear-gradient(90deg,var(--pink),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+/* SLIDE 1 */
+.hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;flex:1;align-content:start;margin-top:8px}
+.hero-card{background:var(--s1);border:1px solid var(--border);border-radius:20px;
+  padding:28px 20px;text-align:center;position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;inset:0;background:var(--card-glow,transparent);opacity:.12;pointer-events:none}
+.hero-card:nth-child(1){--card-glow:radial-gradient(circle at 50% 0%,var(--p1),transparent 70%)}
+.hero-card:nth-child(2){--card-glow:radial-gradient(circle at 50% 0%,var(--cyan),transparent 70%)}
+.hero-card:nth-child(3){--card-glow:radial-gradient(circle at 50% 0%,var(--gold),transparent 70%)}
+.hero-card:nth-child(4){--card-glow:radial-gradient(circle at 50% 0%,var(--green),transparent 70%)}
+.hero-num{font-size:3.2rem;font-weight:800;line-height:1;
+  background:linear-gradient(135deg,#fff 30%,var(--muted));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-label{font-size:.75rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--muted);margin-top:8px}
+.hero-sub{font-size:.7rem;color:var(--muted);margin-top:4px;opacity:.7}
+.hero-card:nth-child(1)::after{content:'';position:absolute;top:14px;right:14px;
+  width:8px;height:8px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 0 rgba(52,211,153,.5);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%{box-shadow:0 0 0 8px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+.tagline{text-align:center;margin-top:auto;padding-top:24px;
+  font-size:1.1rem;color:var(--muted);font-weight:300;font-style:italic}
+.tagline strong{background:linear-gradient(90deg,var(--pink),var(--p1));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;font-style:normal;font-weight:700}
+/* SLIDE 2 TABLE */
+.vozes-table-wrap{flex:1;overflow:auto;border-radius:16px;border:1px solid var(--border);background:var(--s1)}
+.vozes-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.vozes-table thead th{padding:14px 16px;text-align:left;font-size:.68rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+  border-bottom:1px solid var(--border);background:rgba(255,255,255,.03);position:sticky;top:0}
+.vozes-table tbody td{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--text)}
+.vozes-table tbody tr:hover td{background:rgba(255,255,255,.03)}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700}
+.badge-aluno{background:rgba(34,211,238,.15);color:var(--cyan)}
+.badge-docente{background:rgba(192,38,211,.15);color:#e879f9}
+.nivel-bar-wrap{display:flex;align-items:center;gap:8px}
+.nivel-bar{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--p2),var(--pink));flex-shrink:0}
+/* SLIDE 3 CHARTS */
+.charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1}
+.chart-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:20px;display:flex;flex-direction:column}
+.chart-card h3{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:16px}
+.chart-card svg{flex:1}
+/* SLIDE 4 MULHERES */
+.mulheres-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;align-content:start}
+.mulher-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:20px;display:flex;align-items:center;gap:14px}
+.mulher-avatar{width:46px;height:46px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--p1),var(--p2));
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;color:#fff}
+.mulher-info .nome{font-size:.92rem;font-weight:700}
+.mulher-info .votos{font-size:.72rem;color:var(--muted);margin-top:2px}
+/* SLIDE 5 ÁREAS */
+.areas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;align-content:start}
+.area-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:22px 18px}
+.area-emoji{font-size:2rem;display:block;margin-bottom:10px}
+.area-name{font-size:.95rem;font-weight:700;margin-bottom:8px}
+.area-bar-bg{height:6px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}
+.area-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--p1),var(--pink));transition:width .8s cubic-bezier(.22,1,.36,1)}
+.area-count{font-size:.75rem;color:var(--muted);margin-top:6px}
+/* SLIDE 6 FRASES */
+.frases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;align-content:start}
+.frase-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:22px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.frase-card::before{content:'"';position:absolute;top:-10px;left:12px;font-size:6rem;font-weight:800;line-height:1;color:rgba(192,38,211,.2);pointer-events:none}
+.frase-text{font-size:.88rem;line-height:1.65;color:var(--text);flex:1;position:relative;z-index:1}
+.frase-author{font-size:.7rem;font-weight:700;color:var(--pink);text-transform:uppercase;letter-spacing:.08em;margin-top:14px}
+/* SLIDE 7 D3 */
+#d3-wrap{flex:1;display:flex;align-items:center;justify-content:center}
+/* PROGRESS */
+#slideProgress{position:fixed;bottom:0;left:0;height:3px;
+  background:linear-gradient(90deg,var(--p1),var(--cyan),var(--pink));
+  z-index:200;transition:width linear}
+/* INDICATORS */
+.indicators{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:200}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:all .25s}
+.dot.active{background:var(--pink);transform:scale(1.3)}
+.counter{position:fixed;bottom:14px;right:20px;font-size:.7rem;color:var(--muted);z-index:200}
+.empty-msg{text-align:center;padding:60px 20px;color:var(--muted);font-size:.9rem}
 </style>
 </head>
 <body>
-<div class="slides-container">
-    
-    <!-- Elementos decorativos flutuantes -->
-    <div class="floating-element" style="top: 5%; left: 5%;">
-        <div class="heart">❤️</div>
-    </div>
-    <div class="floating-element" style="top: 15%; right: 5%;">
-        <div class="sparkle">✨</div>
-    </div>
+<canvas id="stars"></canvas>
+<div id="toasts"></div>
+<div id="slideProgress" style="width:0%"></div>
 
-    <!-- Slide 1: Estatísticas -->
-    <div class="slide slide-1 active">
-        <div class="slide-content">
-            <h1 class="slide-title">📊 Estatísticas TIC</h1>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">Respostas Totais</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">Alunos</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">Docentes</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">0/10</div>
-                    <div class="stat-label">Interesse Médio</div>
-                </div>
-            </div>
-            <div class="pulse" style="color: rgba(255,255,255,0.5); font-size: 14px; text-align: center; margin-top: 10px;">
-                Aguardando dados do formulário...
-            </div>
-        </div>
+<div class="slides" id="slides">
+<!-- SLIDE 1 -->
+<div class="slide slide-1 active">
+  <div class="slide-header">
+    <span class="label">Ao Vivo</span>
+    <h1>✨ <span class="grad">Portal TIC</span> — Vozes que Inspiram</h1>
+  </div>
+  <div class="hero-grid">
+    <div class="hero-card"><div class="hero-num" id="s1-total">0</div><div class="hero-label">Vozes presentes</div><div class="hero-sub">respostas totais</div></div>
+    <div class="hero-card"><div class="hero-num" id="s1-alunos">0</div><div class="hero-label">Alunos</div><div class="hero-sub">futuros criadores</div></div>
+    <div class="hero-card"><div class="hero-num" id="s1-docentes">0</div><div class="hero-label">Docentes</div><div class="hero-sub">guias e mentores</div></div>
+    <div class="hero-card"><div class="hero-num" id="s1-nivel">–</div><div class="hero-label">Curiosidade média</div><div class="hero-sub">escala de 0 a 10</div></div>
+  </div>
+  <div class="tagline" id="s1-tagline">A aguardar participações… seja o primeiro a deixar a tua voz!</div>
+</div>
+<!-- SLIDE 2 -->
+<div class="slide slide-2">
+  <div class="slide-header"><span class="label">2 / 8</span><h1>💬 As <span class="grad">Vozes</span> do Evento</h1></div>
+  <div class="vozes-table-wrap">
+    <table class="vozes-table">
+      <thead><tr><th>Tipo</th><th>Área</th><th>Curiosidade</th><th>Programa?</th></tr></thead>
+      <tbody id="tabelaBody"><tr><td colspan="4" class="empty-msg">A aguardar respostas…</td></tr></tbody>
+    </table>
+  </div>
+</div>
+<!-- SLIDE 3 -->
+<div class="slide slide-3">
+  <div class="slide-header"><span class="label">3 / 8</span><h1>📊 <span class="grad">Dados</span> em Tempo Real</h1></div>
+  <div class="charts-2col">
+    <div class="chart-card"><h3>Distribuição por Área</h3><svg id="chartAreas"></svg></div>
+    <div class="chart-card"><h3>Nível de Curiosidade</h3><svg id="chartNiveis"></svg></div>
+  </div>
+</div>
+<!-- SLIDE 4 -->
+<div class="slide slide-4">
+  <div class="slide-header"><span class="label">4 / 8</span><h1>🌟 <span class="grad">Mulheres</span> que Inspiram</h1></div>
+  <div class="mulheres-grid" id="mulheresGrid"><div class="empty-msg" style="grid-column:1/-1">Sem dados ainda…</div></div>
+</div>
+<!-- SLIDE 5 -->
+<div class="slide slide-5">
+  <div class="slide-header"><span class="label">5 / 8</span><h1>💻 <span class="grad">Áreas</span> de Interesse</h1></div>
+  <div class="areas-grid" id="areasGrid"><div class="empty-msg" style="grid-column:1/-1">Sem dados ainda…</div></div>
+</div>
+<!-- SLIDE 6 -->
+<div class="slide slide-6">
+  <div class="slide-header"><span class="label">6 / 8</span><h1>💬 <span class="grad">Mensagens</span> ao Futuro</h1></div>
+  <div class="frases-grid" id="frasesGrid"><div class="empty-msg" style="grid-column:1/-1">Sem mensagens ainda…</div></div>
+</div>
+<!-- SLIDE 7 - Vozes que Inspiram (quotes) -->
+<div class="slide slide-7">
+  <div class="slide-header"><span class="label">7 / 8</span><h1>💬 <span class="grad">Vozes</span> que Inspiram</h1></div>
+  <div class="frases-grid" style="grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr)">
+    <div class="frase-card">
+      <div class="frase-text">A tecnologia influencia profundamente quem somos e como vivemos. Se as mulheres não participam na sua criação, não estão a contribuir para moldar o futuro.</div>
+      <div class="frase-author">Anita Borg · Cientista Computacional</div>
     </div>
-
-    <!-- Slide 2: Submissões -->
-    <div class="slide slide-2">
-        <div class="slide-content">
-            <h1 class="slide-title">📋 Últimas Submissões</h1>
-            <div class="table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Perfil</th>
-                            <th>Área de Interesse</th>
-                            <th>Nível</th>
-                            <th>Contacto Prog.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="5">
-                                <div class="empty-table-message">
-                                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
-                                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-                                        <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                    </svg>
-                                    <h3>Nenhuma submissão</h3>
-                                    <p>As submissões aparecerão aqui quando o formulário for preenchido</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="frase-card">
+      <div class="frase-text">Nada na vida deve ser temido, somente compreendido. Agora é hora de compreender mais para temer menos.</div>
+      <div class="frase-author">Marie Curie · 2× Prémio Nobel</div>
     </div>
-
-    <!-- Slide 3: Gráficos -->
-    <div class="slide slide-3">
-        <div class="slide-content">
-            <h1 class="slide-title">📈 Análise de Dados</h1>
-            <div class="charts-container">
-                <div class="chart">
-                    <h3 class="chart-title">Distribuição por Área</h3>
-                    <div class="chart-content">
-                        <div class="empty-chart">
-                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2L12 22" stroke="currentColor" stroke-width="1.5"/>
-                                <path d="M22 12L2 12" stroke="currentColor" stroke-width="1.5"/>
-                                <rect x="5" y="14" width="3" height="6" fill="currentColor" opacity="0.3"/>
-                                <rect x="10" y="8" width="3" height="12" fill="currentColor" opacity="0.3"/>
-                                <rect x="15" y="4" width="3" height="16" fill="currentColor" opacity="0.3"/>
-                            </svg>
-                            <p>Gráfico será gerado automaticamente</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="chart">
-                    <h3 class="chart-title">Níveis de Interesse</h3>
-                    <div class="chart-content">
-                        <div class="empty-chart">
-                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
-                                <circle cx="12" cy="12" r="6" fill="currentColor" opacity="0.3"/>
-                            </svg>
-                            <p>Aguardando dados suficientes</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="frase-card">
+      <div class="frase-text">Aceitamos a educação como meio de superar as limitações que uma sociedade preconceituosa tem se esforçado para colocar em cima de nós.</div>
+      <div class="frase-author">Evelyn Granville · Matemática</div>
     </div>
-
-    <!-- Slide 4: Mulheres Inspiradoras -->
-    <div class="slide slide-4">
-        <div class="slide-content">
-            <h1 class="slide-title">🌟 Mulheres na Tecnologia</h1>
-            <div class="mulheres-grid">
-                <div class="mulher-card">
-                    <div class="mulher-placeholder">
-                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M6 20C6 16.6863 8.68629 14 12 14C15.3137 14 18 16.6863 18 20" stroke="currentColor" stroke-width="1.5"/>
-                        </svg>
-                        <h3>Próxima Referência</h3>
-                        <p>Aguarde submissões</p>
-                    </div>
-                </div>
-                <div class="mulher-card">
-                    <div class="mulher-placeholder">
-                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M6 20C6 16.6863 8.68629 14 12 14C15.3137 14 18 16.6863 18 20" stroke="currentColor" stroke-width="1.5"/>
-                        </svg>
-                        <h3>Próxima Referência</h3>
-                        <p>Aguarde submissões</p>
-                    </div>
-                </div>
-                <div class="mulher-card">
-                    <div class="mulher-placeholder">
-                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M6 20C6 16.6863 8.68629 14 12 14C15.3137 14 18 16.6863 18 20" stroke="currentColor" stroke-width="1.5"/>
-                        </svg>
-                        <h3>Próxima Referência</h3>
-                        <p>Aguarde submissões</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="frase-card">
+      <div class="frase-text">Se não é divertido, porque fazer? Eu tenho muita diversão a trabalhar em computadores.</div>
+      <div class="frase-author">Grace Hopper · Inventora do primeiro compilador</div>
     </div>
-
-    <!-- Slide 5: Áreas de Interesse -->
-    <div class="slide slide-5">
-        <div class="slide-content">
-            <h1 class="slide-title">💻 Áreas de Interesse</h1>
-            <div class="areas-grid">
-                <div class="area-item">
-                    <div class="area-icon">👩‍💻</div>
-                    <div class="area-name">Programação</div>
-                    <div class="area-count">0</div>
-                </div>
-                <div class="area-item">
-                    <div class="area-icon">🤖</div>
-                    <div class="area-name">Inteligência Artificial</div>
-                    <div class="area-count">0</div>
-                </div>
-                <div class="area-item">
-                    <div class="area-icon">🎮</div>
-                    <div class="area-name">Jogos Digitais</div>
-                    <div class="area-count">0</div>
-                </div>
-                <div class="area-item">
-                    <div class="area-icon">🌐</div>
-                    <div class="area-name">Redes</div>
-                    <div class="area-count">0</div>
-                </div>
-                <div class="area-item">
-                    <div class="area-icon">🎨</div>
-                    <div class="area-name">Multimédia</div>
-                    <div class="area-count">0</div>
-                </div>
-                <div class="area-item">
-                    <div class="area-icon">⚙️</div>
-                    <div class="area-name">Robótica</div>
-                    <div class="area-count">0</div>
-                </div>
-            </div>
-        </div>
+    <div class="frase-card">
+      <div class="frase-text">A ciência não conhece fronteiras, porque o conhecimento pertence à humanidade e é a tocha que ilumina o mundo.</div>
+      <div class="frase-author">Radia Perlman · Inventora do Spanning Tree</div>
     </div>
-
-    <!-- Slide 6: Frases Inspiradoras -->
-    <div class="slide slide-6">
-        <div class="slide-content">
-            <h1 class="slide-title">💬 Vozes que Inspiram</h1>
-            <div class="quotes-grid">
-                <div class="quote-card">
-                    <p class="quote-text">A tecnologia influencia profundamente quem somos e como vivemos. Se as mulheres não participam na sua criação, não estão a contribuir para moldar o futuro.</p>
-                    <div><div class="quote-author">Anita Borg</div><div class="quote-role">Cientista Computacional · Fundadora do Instituto Anita Borg</div></div>
-                </div>
-                <div class="quote-card">
-                    <p class="quote-text">Nada na vida deve ser temido, somente compreendido. Agora é hora de compreender mais para temer menos.</p>
-                    <div><div class="quote-author">Marie Curie</div><div class="quote-role">Física e Química · 2× Prémio Nobel</div></div>
-                </div>
-                <div class="quote-card">
-                    <p class="quote-text">Aceitamos a educação como meio de superar as limitações que uma sociedade preconceituosa tem se esforçado para colocar em cima de nós.</p>
-                    <div><div class="quote-author">Evelyn Granville</div><div class="quote-role">Matemática · 2.ª mulher afro-americana com PhD em Matemática</div></div>
-                </div>
-                <div class="quote-card">
-                    <p class="quote-text">Se não é divertido, porque fazer? Eu tenho muita diversão a trabalhar em computadores.</p>
-                    <div><div class="quote-author">Grace Hopper</div><div class="quote-role">Almirante da Marinha · Inventora do primeiro compilador</div></div>
-                </div>
-                <div class="quote-card">
-                    <p class="quote-text">A ciência não conhece fronteiras, porque o conhecimento pertence à humanidade e é a tocha que ilumina o mundo.</p>
-                    <div><div class="quote-author">Radia Perlman</div><div class="quote-role">Engenheira · Inventora do algoritmo Spanning Tree</div></div>
-                </div>
-                <div class="quote-card">
-                    <p class="quote-text">Sempre quis ser matemática ou cientista. Cresci durante a Segunda Guerra Mundial e a ciência era muito importante para todos nós.</p>
-                    <div><div class="quote-author">Katherine Johnson</div><div class="quote-role">Matemática da NASA · Calculou a trajetória do Apollo 11</div></div>
-                </div>
-            </div>
-        </div>
+    <div class="frase-card">
+      <div class="frase-text">Sempre quis ser matemática ou cientista. Cresci durante a Segunda Guerra Mundial e a ciência era muito importante para todos nós.</div>
+      <div class="frase-author">Katherine Johnson · NASA · Apollo 11</div>
     </div>
-
-    <!-- Slide 7: Análise Avançada D3 -->
-    <div class="slide slide-7">
-        <div class="slide-content">
-            <h1 class="slide-title">📊 Análise Avançada</h1>
-            <div class="d3-slide-inner">
-                <div class="d3-kpi-row">
-                    <div class="d3-kpi"><div class="d3-kpi-value" id="d3-kpi-total">0</div><div class="d3-kpi-label">Respostas</div></div>
-                    <div class="d3-kpi"><div class="d3-kpi-value" id="d3-kpi-alunos">0</div><div class="d3-kpi-label">Alunos</div></div>
-                    <div class="d3-kpi"><div class="d3-kpi-value" id="d3-kpi-docentes">0</div><div class="d3-kpi-label">Docentes</div></div>
-                    <div class="d3-kpi"><div class="d3-kpi-value" id="d3-kpi-nivel">0</div><div class="d3-kpi-label">Nível Médio</div></div>
-                </div>
-                <button class="d3-simulate-btn" onclick="d3Simulate()">➕ Simular Submissão</button>
-                <div class="d3-charts-grid">
-                    <div class="d3-chart-card">
-                        <div class="d3-chart-title">👥 Alunos vs Docentes</div>
-                        <svg id="d3-bar-tipo"></svg>
-                    </div>
-                    <div class="d3-chart-card">
-                        <div class="d3-chart-title">💻 Distribuição por Área</div>
-                        <svg id="d3-bar-area"></svg>
-                    </div>
-                    <div class="d3-chart-card">
-                        <div class="d3-chart-title">📈 Níveis de Interesse</div>
-                        <svg id="d3-bar-nivel"></svg>
-                    </div>
-                    <div class="d3-chart-card">
-                        <div class="d3-chart-title">🖥️ Contacto com Programação</div>
-                        <svg id="d3-donut-prog"></svg>
-                    </div>
-                    <div class="d3-chart-card d3-chart-wide">
-                        <div class="d3-chart-title">🌟 Mulheres Inspiradoras Mais Mencionadas</div>
-                        <svg id="d3-bar-mulheres"></svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Indicadores de slide -->
-    <div class="slide-indicators">
-        <div class="indicator active" data-slide="0"></div>
-        <div class="indicator" data-slide="1"></div>
-        <div class="indicator" data-slide="2"></div>
-        <div class="indicator" data-slide="3"></div>
-        <div class="indicator" data-slide="4"></div>
-        <div class="indicator" data-slide="5"></div>
-        <div class="indicator" data-slide="6"></div>
-    </div>
-
-    <!-- Contador -->
-    <div class="slide-counter">1/7</div>
+  </div>
+</div>
+<!-- SLIDE 8 -->
+<div class="slide slide-8">
+  <div class="slide-header"><span class="label">8 / 8</span><h1>🫧 <span class="grad">Universo</span> de Palavras</h1></div>
+  <div id="d3-wrap"></div>
+</div>
 </div>
 
+<div class="indicators" id="indicators"></div>
+<div class="counter" id="counter">1 / 7</div>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const slides = document.querySelectorAll('.slide');
-    const indicators = document.querySelectorAll('.indicator');
-    const slideCounter = document.querySelector('.slide-counter');
-    let currentSlide = 0;
-    const totalSlides = slides.length;
-    let slideInterval;
-    const slideDuration = 7000; // 7 segundos por slide
+/* ── STARS ── */
+(function(){
+  const c=document.getElementById('stars'),ctx=c.getContext('2d');
+  const resize=()=>{c.width=innerWidth;c.height=innerHeight};
+  resize();addEventListener('resize',resize);
+  const stars=Array.from({length:120},()=>({x:Math.random(),y:Math.random(),r:Math.random()*.9+.2,a:Math.random()}));
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    stars.forEach(s=>{s.a+=.002;ctx.beginPath();ctx.arc(s.x*c.width,s.y*c.height,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${.4+Math.sin(s.a)*.35})`;ctx.fill()});
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
 
-    // Inicializar
-    updateCounter();
-    startSlideShow();
+/* ── SLIDES ── */
+const SLIDE_COUNT=8, SLIDE_DUR=10000;
+let current=0;
+const slideEls=document.querySelectorAll('.slide');
+const dotsWrap=document.getElementById('indicators');
+const counterEl=document.getElementById('counter');
+const progressBar=document.getElementById('slideProgress');
 
-    // Função para avançar para o próximo slide
-    function nextSlide() {
-        // Marcar slide atual como saindo
-        slides[currentSlide].classList.add('leaving');
-        slides[currentSlide].classList.remove('active');
-        
-        // Atualizar indicador atual
-        indicators[currentSlide].classList.remove('active');
+for(let i=0;i<SLIDE_COUNT;i++){
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' active':'');
+  d.onclick=()=>goTo(i,true);
+  dotsWrap.appendChild(d);
+}
 
-        // Calcular próximo slide
-        currentSlide = (currentSlide + 1) % totalSlides;
+function updateDots(i){
+  document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+  counterEl.textContent=(i+1)+' / '+SLIDE_COUNT;
+}
 
-        // Adicionar classe active ao novo slide
-        setTimeout(() => {
-            slides[currentSlide].classList.remove('leaving');
-            slides[currentSlide].classList.add('active');
-            
-            // Atualizar indicador
-            indicators[currentSlide].classList.add('active');
-            
-            // Atualizar contador
-            updateCounter();
-        }, 800);
-    }
+function startProgress(){
+  progressBar.style.transition='none';
+  progressBar.style.width='0%';
+  progressBar.offsetWidth;
+  progressBar.style.transition=`width ${SLIDE_DUR}ms linear`;
+  progressBar.style.width='100%';
+}
 
-    // Função para ir para um slide específico
-    function goToSlide(index) {
-        if (index === currentSlide) return;
+function goTo(i,manual=false){
+  if(i===current)return;
+  slideEls[current].classList.remove('active');
+  slideEls[current].classList.add('leaving');
+  const prev=current;
+  setTimeout(()=>slideEls[prev].classList.remove('leaving'),750);
+  current=i;
+  slideEls[current].classList.add('active');
+  updateDots(current);
+  startProgress();
+  if(manual)resetAuto();
+  if(current===2)renderCharts();
+  if(current===7)renderD3();
+}
 
-        // Marcar slide atual como saindo
-        slides[currentSlide].classList.add('leaving');
-        slides[currentSlide].classList.remove('active');
-        indicators[currentSlide].classList.remove('active');
+let autoTimer;
+function resetAuto(){
+  clearInterval(autoTimer);
+  autoTimer=setInterval(()=>goTo((current+1)%SLIDE_COUNT),SLIDE_DUR);
+}
+resetAuto();startProgress();updateDots(0);
 
-        // Atualizar slide atual
-        currentSlide = index;
+/* ── TOASTS ── */
+const toastQ=[];let toastBusy=false;
+function toast(msg){toastQ.push(msg);if(!toastBusy)nextToast();}
+function nextToast(){
+  if(!toastQ.length){toastBusy=false;return;}
+  toastBusy=true;
+  const el=document.createElement('div');el.className='toast';el.textContent=toastQ.shift();
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>{el.classList.add('out');setTimeout(()=>{el.remove();nextToast();},400);},3200);
+}
 
-        // Adicionar classe active ao novo slide
-        setTimeout(() => {
-            slides[currentSlide].classList.remove('leaving');
-            slides[currentSlide].classList.add('active');
-            indicators[currentSlide].classList.add('active');
-            updateCounter();
-        }, 800);
-    }
+/* ── DATA ── */
+const API='/api/estatisticas';
+let prevData=null;
 
-    // Atualizar contador
-    function updateCounter() {
-        slideCounter.textContent = `${currentSlide + 1}/${totalSlides}`;
-    }
+async function loadData(){
+  try{
+    const r=await fetch(API+'?t='+Date.now());
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    applyData(data);
+    checkNotifications(data);
+    prevData=data;
+  }catch(e){console.warn('API error',e);}
+}
 
-    // Iniciar slideshow automático
-    function startSlideShow() {
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, slideDuration);
-    }
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-    // Pausar slideshow ao passar o mouse
-    const slidesContainer = document.querySelector('.slides-container');
-    slidesContainer.addEventListener('mouseenter', () => {
-        clearInterval(slideInterval);
-    });
+function animNum(id,target){
+  const el=document.getElementById(id);
+  const start=parseInt(el.textContent)||0;
+  if(start===target)return;
+  const dur=600,t0=performance.now();
+  function step(t){const p=Math.min((t-t0)/dur,1);el.textContent=Math.round(start+(target-start)*p);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
 
-    // Retomar slideshow ao remover o mouse
-    slidesContainer.addEventListener('mouseleave', () => {
-        startSlideShow();
-    });
+function applyData(d){
+  // normalise backend response to what the UI expects
+  d.vozes   = d.recentes || [];
+  d.areas   = (d.porArea||[]).map(a=>({area:a.area,count:a.total}));
+  d.niveis  = (() => {
+    const nd = d.nivelDist || {};
+    return [
+      {nivel:'0-3', count: nd.baixo||0},
+      {nivel:'4-6', count: nd.medio||0},
+      {nivel:'7-10',count: nd.alto ||0},
+    ];
+  })();
+  d.mulheres = (d.mulheres||[]).map(m=>({nome:m.mulher,count:m.mencoes}));
+  d.frases   = (d.recentes||[]).filter(r=>r.comentario).slice(0,6).map(r=>({comentario:r.comentario,nome:r.nome,tipo:r.tipo}));
 
-    // Adicionar eventos aos indicadores
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            goToSlide(index);
-            startSlideShow(); // Reiniciar intervalo após clique manual
-        });
-    });
+  /* slide 1 */
+  animNum('s1-total',d.total);
+  animNum('s1-alunos',d.alunos);
+  animNum('s1-docentes',d.docentes);
+  document.getElementById('s1-nivel').textContent=d.avgNivel?d.avgNivel+'/10':'–';
+  const tl=document.getElementById('s1-tagline');
+  if(d.total>0) tl.innerHTML=`Já há <strong>${d.total}</strong> voz${d.total>1?'es':''} neste espaço — a tecnologia tem <strong>o rosto de quem está aqui</strong>.`;
 
-    // Adicionar navegação por teclado
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
-            nextSlide();
-            startSlideShow();
-        } else if (e.key === 'ArrowLeft') {
-            // Voltar slide
-            let previousSlide = currentSlide - 1;
-            if (previousSlide < 0) previousSlide = totalSlides - 1;
-            goToSlide(previousSlide);
-            startSlideShow();
-        } else if (e.key >= '1' && e.key <= '7') {
-            // Ir diretamente para slide com números 1-5
-            const slideIndex = parseInt(e.key) - 1;
-            if (slideIndex < totalSlides) {
-                goToSlide(slideIndex);
-                startSlideShow();
-            }
-        }
-    });
+  /* slide 2 */
+  const tbody=document.getElementById('tabelaBody');
+  if(d.vozes&&d.vozes.length){
+    tbody.innerHTML=d.vozes.map(v=>`<tr>
+      <td><span class="badge badge-${v.tipo}">${v.tipo}</span></td>
+      <td>${esc(v.area||'–')}</td>
+      <td><div class="nivel-bar-wrap"><div class="nivel-bar" style="width:${(v.nivel||0)*8}px"></div><span style="font-size:.8rem;color:var(--muted)">${v.nivel||0}/10</span></div></td>
+      <td style="font-size:.8rem;color:var(--muted)">${v.programacao==='sim'?'✅ Sim':'🔜 Ainda não'}</td>
+    </tr>`).join('');
+  } else {
+    tbody.innerHTML='<tr><td colspan="4" class="empty-msg">A aguardar respostas…</td></tr>';
+  }
 
-    // Adicionar efeito de clique nos elementos
-    document.querySelectorAll('.stat-item, .area-item, .mulher-card').forEach(item => {
-        item.addEventListener('click', function(e) {
-            if (e.target.closest('.indicator')) return;
-            
-            this.style.transform = 'scale(0.97)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 150);
-        });
-    });
+  /* slide 4 */
+  const mg=document.getElementById('mulheresGrid');
+  if(d.mulheres&&d.mulheres.length){
+    mg.innerHTML=d.mulheres.map(m=>`<div class="mulher-card">
+      <div class="mulher-avatar">${esc(m.nome.charAt(0).toUpperCase())}</div>
+      <div class="mulher-info"><div class="nome">${esc(m.nome)}</div><div class="votos">${m.count} menç${m.count>1?'ões':'ão'}</div></div>
+    </div>`).join('');
+  } else {
+    mg.innerHTML='<div class="empty-msg" style="grid-column:1/-1">Ninguém mencionado ainda…</div>';
+  }
 
-    // ── API Config ──────────────────────────────────────────────────
-    const API_BASE = '/api';
-    const REFRESH_MS = 10000; // refresh every 10 seconds
+  /* slide 5 */
+  const areaEmojis={'Programação':'💻','Inteligência Artificial':'🤖','Jogos Digitais':'🎮','Redes':'🌐','Multimédia':'🎨','Robótica':'🦾'};
+  const ag=document.getElementById('areasGrid');
+  if(d.areas&&d.areas.length){
+    const max=d.areas[0].count;
+    ag.innerHTML=d.areas.map(a=>`<div class="area-card">
+      <span class="area-emoji">${areaEmojis[a.area]||'🖥️'}</span>
+      <div class="area-name">${esc(a.area)}</div>
+      <div class="area-bar-bg"><div class="area-bar-fill" style="width:${Math.round(a.count/max*100)}%"></div></div>
+      <div class="area-count">${a.count} resposta${a.count>1?'s':''}</div>
+    </div>`).join('');
+  } else {
+    ag.innerHTML='<div class="empty-msg" style="grid-column:1/-1">Sem dados ainda…</div>';
+  }
 
-    // ── Area icon map ────────────────────────────────────────────────
-    const areaIcons = {
-        'Programação':           '👩‍💻',
-        'Inteligência Artificial':'🤖',
-        'Jogos Digitais':        '🎮',
-        'Redes':                 '🌐',
-        'Multimédia':            '🎨',
-        'Robótica':              '⚙️',
-        'Administrativa':        '🗂️',
-    };
+  /* slide 6 - frases from submissions */
+  const fg=document.getElementById('frasesGrid');
+  if(d.frases&&d.frases.length){
+    fg.innerHTML=d.frases.map(f=>`<div class="frase-card">
+      <div class="frase-text">${esc(f.comentario)}</div>
+      <div class="frase-author">${esc(f.nome)} · ${f.tipo}</div>
+    </div>`).join('');
+  } else {
+    fg.innerHTML='<div class="empty-msg" style="grid-column:1/-1">Sem mensagens ainda…</div>';
+  }
 
-    // ── Helper: animate number ────────────────────────────────────────
-    function animateNumber(el, target, suffix = '') {
-        const start = parseInt(el.textContent) || 0;
-        const duration = 600;
-        const step = (timestamp, startTime) => {
-            const progress = Math.min((timestamp - startTime) / duration, 1);
-            el.textContent = Math.round(start + (target - start) * progress) + suffix;
-            if (progress < 1) requestAnimationFrame(ts => step(ts, startTime));
-        };
-        requestAnimationFrame(ts => step(ts, ts));
-    }
+  window._lastData=d;
+  if(current===2)renderCharts(d);
+  if(current===7)renderD3(d);
+}
 
-    // ── Slide 1: stats ────────────────────────────────────────────────
-    function updateStats(data) {
-        const statValues = document.querySelectorAll('.stat-value');
-        animateNumber(statValues[0], data.total);
-        animateNumber(statValues[1], data.alunos);
-        animateNumber(statValues[2], data.docentes);
-        statValues[3].textContent = data.avgNivel + '/10';
+function checkNotifications(d){
+  if(!prevData)return;
+  if(d.total>prevData.total) toast('✨ Nova voz adicionada ao evento!');
+  if(d.avgNivel>prevData.avgNivel) toast('📊 Aumentou o nível médio de curiosidade — agora '+d.avgNivel+'/10');
+  if(d.mulheres&&prevData.mulheres){
+    const oldNames=new Set(prevData.mulheres.map(m=>m.nome));
+    for(const m of d.mulheres){if(!oldNames.has(m.nome)){toast('🌟 Mais uma mulher inspiradora adicionada: '+m.nome);break;}}
+  }
+}
 
-        const waitingMsg = document.querySelector('.slide-1 .pulse');
-        if (waitingMsg) {
-            waitingMsg.textContent = data.total > 0
-                ? `Última atualização: ${new Date().toLocaleTimeString('pt-PT', {hour:'2-digit',minute:'2-digit'})}`
-                : 'Aguardando dados do formulário...';
-        }
-    }
+/* ── CHARTS D3 ── */
+function renderCharts(d){d=d||window._lastData;if(!d)return;renderBarAreas(d.areas||[]);renderBarNiveis(d.niveis||[]);}
 
-    // ── Slide 2: table ────────────────────────────────────────────────
-    function updateTable(rows) {
-        const tbody = document.querySelector('.data-table tbody');
-        if (!tbody) return;
+function renderBarAreas(areas){
+  const svg=d3.select('#chartAreas');svg.selectAll('*').remove();
+  const el=svg.node().parentElement,W=el.clientWidth-40,H=el.clientHeight-40||240;
+  if(!areas.length){svg.append('text').attr('x',W/2).attr('y',H/2).attr('fill','rgba(255,255,255,.3)').attr('text-anchor','middle').text('Sem dados');return;}
+  const m={top:8,right:12,bottom:60,left:36},w=W-m.left-m.right,h=H-m.top-m.bottom;
+  const g=svg.attr('viewBox',`0 0 ${W} ${H}`).append('g').attr('transform',`translate(${m.left},${m.top})`);
+  const x=d3.scaleBand().domain(areas.map(a=>a.area)).range([0,w]).padding(.3);
+  const y=d3.scaleLinear().domain([0,d3.max(areas,a=>a.count)]).nice().range([h,0]);
+  g.selectAll('rect').data(areas).join('rect')
+    .attr('x',d=>x(d.area)).attr('y',d=>y(d.count))
+    .attr('width',x.bandwidth()).attr('height',d=>h-y(d.count))
+    .attr('rx',5).attr('fill',(_,i)=>d3.interpolateRainbow(i/areas.length)).attr('opacity',.85);
+  g.selectAll('.val').data(areas).join('text').attr('class','val')
+    .attr('x',d=>x(d.area)+x.bandwidth()/2).attr('y',d=>y(d.count)-6)
+    .attr('text-anchor','middle').attr('fill','rgba(255,255,255,.75)').attr('font-size',11).text(d=>d.count);
+  g.append('g').attr('transform',`translate(0,${h})`).call(d3.axisBottom(x).tickSize(0))
+    .selectAll('text').attr('fill','rgba(255,255,255,.5)').attr('font-size',10).attr('transform','rotate(-35)').attr('text-anchor','end');
+  g.selectAll('.domain,.tick line').attr('stroke','rgba(255,255,255,.1)');
+}
 
-        if (!rows || rows.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5">
-                <div class="empty-table-message">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-                        <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    <h3>Nenhuma submissão</h3>
-                    <p>As submissões aparecerão aqui quando o formulário for preenchido</p>
-                </div></td></tr>`;
-            return;
-        }
+function renderBarNiveis(niveis){
+  const svg=d3.select('#chartNiveis');svg.selectAll('*').remove();
+  const el=svg.node().parentElement,W=el.clientWidth-40,H=el.clientHeight-40||240;
+  const m={top:8,right:12,bottom:40,left:36},w=W-m.left-m.right,h=H-m.top-m.bottom;
+  const g=svg.attr('viewBox',`0 0 ${W} ${H}`).append('g').attr('transform',`translate(${m.left},${m.top})`);
+  const allLevels=Array.from({length:11},(_,i)=>i);
+  const map=Object.fromEntries(niveis.map(n=>[n.nivel,n.count]));
+  const x=d3.scaleBand().domain(allLevels).range([0,w]).padding(.25);
+  const y=d3.scaleLinear().domain([0,d3.max(niveis,n=>n.count)||1]).nice().range([h,0]);
+  const cs=d3.scaleSequential().domain([0,10]).interpolator(d3.interpolateViridis);
+  g.selectAll('rect').data(allLevels).join('rect')
+    .attr('x',d=>x(d)).attr('y',d=>y(map[d]||0))
+    .attr('width',x.bandwidth()).attr('height',d=>h-y(map[d]||0))
+    .attr('rx',4).attr('fill',d=>cs(d)).attr('opacity',d=>(map[d]||0)>0?.9:.2);
+  g.append('g').attr('transform',`translate(0,${h})`).call(d3.axisBottom(x).tickSize(0))
+    .selectAll('text').attr('fill','rgba(255,255,255,.5)').attr('font-size',10);
+  g.append('g').call(d3.axisLeft(y).ticks(4).tickSize(-w))
+    .selectAll('.tick line').attr('stroke','rgba(255,255,255,.06)');
+  g.selectAll('.domain').attr('stroke','rgba(255,255,255,.1)');
+  g.selectAll('.tick text').attr('fill','rgba(255,255,255,.4)').attr('font-size',10);
+}
 
-        tbody.innerHTML = rows.map(r => {
-            const langs = r.linguagens ? JSON.parse(r.linguagens).join(', ') : '—';
-            return `<tr>
-                <td>${escapeHtml(r.nome)}</td>
-                <td>${r.tipo === 'aluno' ? '🎓 Aluno' + (r.turma ? ' · ' + escapeHtml(r.turma) : '') : '👨‍🏫 Docente'}</td>
-                <td>${areaIcons[r.area] || '📌'} ${escapeHtml(r.area)}</td>
-                <td><span style="font-weight:700;color:#f0abfc">${r.nivel}/10</span></td>
-                <td>${r.programacao === 'sim' ? '✅ ' + langs : '❌ Não'}</td>
-            </tr>`;
-        }).join('');
-    }
+function renderD3(d){
+  d=d||window._lastData;
+  const wrap=document.getElementById('d3-wrap');wrap.innerHTML='';
+  if(!d)return;
+  const raw=[...(d.areas||[]).map(a=>({id:a.area,v:a.count,type:'area'})),
+             ...(d.mulheres||[]).map(m=>({id:m.nome,v:m.count,type:'mulher'}))];
+  if(!raw.length)return;
+  const W=wrap.clientWidth||700,H=wrap.clientHeight||420;
+  const r=d3.scaleSqrt().domain([1,d3.max(raw,x=>x.v)]).range([22,80]);
+  const color={'area':'#c026d3','mulher':'#f472b6'};
+  const sim=d3.forceSimulation(raw)
+    .force('charge',d3.forceManyBody().strength(5))
+    .force('center',d3.forceCenter(W/2,H/2))
+    .force('collision',d3.forceCollide(d=>r(d.v)+4)).stop();
+  for(let i=0;i<120;i++)sim.tick();
+  const svg=d3.select(wrap).append('svg').attr('viewBox',`0 0 ${W} ${H}`).style('width','100%').style('height','100%');
+  const node=svg.selectAll('g').data(raw).join('g')
+    .attr('transform',d=>`translate(${Math.max(r(d.v),Math.min(W-r(d.v),d.x))},${Math.max(r(d.v),Math.min(H-r(d.v),d.y))})`);
+  node.append('circle').attr('r',d=>r(d.v)).attr('fill',d=>color[d.type]||'#7c3aed')
+    .attr('opacity',.75).attr('stroke',d=>color[d.type]).attr('stroke-width',1.5).attr('stroke-opacity',.5);
+  node.append('text').attr('text-anchor','middle').attr('dy','0.35em')
+    .attr('fill','#fff').attr('font-size',d=>Math.min(r(d.v)*.42,14))
+    .attr('font-family','Sora,sans-serif').attr('font-weight','600')
+    .text(d=>{const l=d.id,max=Math.floor(r(d.v)/4);return l.length>max?l.substring(0,max)+'…':l;});
+  node.append('text').attr('text-anchor','middle').attr('dy',d=>r(d.v)*.38+14)
+    .attr('fill','rgba(255,255,255,.6)').attr('font-size',10).text(d=>d.v);
+}
 
-    // ── Slide 3: charts (pure CSS/HTML bar charts) ────────────────────
-    function updateCharts(data) {
-        // Chart 1: Area bar chart
-        const areaChartEl = document.querySelector('.slide-3 .chart:nth-child(1) .chart-content');
-        if (areaChartEl && data.porArea && data.porArea.length > 0) {
-            const maxVal = Math.max(...data.porArea.map(a => a.total));
-            areaChartEl.innerHTML = `
-                <div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-around;gap:6px;padding:8px 0">
-                    ${data.porArea.map(a => `
-                        <div style="display:flex;align-items:center;gap:10px;font-size:13px;">
-                            <span style="width:130px;text-align:right;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${escapeHtml(a.area)}">${escapeHtml(a.area)}</span>
-                            <div style="flex:1;background:rgba(255,255,255,.1);border-radius:6px;overflow:hidden;height:20px">
-                                <div style="height:100%;width:${Math.round((a.total/maxVal)*100)}%;background:linear-gradient(90deg,#ec4899,#a855f7);border-radius:6px;transition:width .6s ease"></div>
-                            </div>
-                            <span style="width:24px;font-weight:700;color:#f0abfc">${a.total}</span>
-                        </div>`).join('')}
-                </div>`;
-        }
-
-        // Chart 2: Interest level donut-like bars
-        const nivelChartEl = document.querySelector('.slide-3 .chart:nth-child(2) .chart-content');
-        if (nivelChartEl && data.nivelDist) {
-            const nd = data.nivelDist;
-            const total = (nd.baixo || 0) + (nd.medio || 0) + (nd.alto || 0);
-            const pct = v => total > 0 ? Math.round((v / total) * 100) : 0;
-
-            nivelChartEl.innerHTML = `
-                <div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:16px 0">
-                    ${[['Baixo (0-3)', nd.baixo||0,'#f43f5e'],['Médio (4-6)', nd.medio||0,'#f59e0b'],['Alto (7-10)', nd.alto||0,'#10b981']].map(([label,val,color]) => `
-                        <div>
-                            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px">
-                                <span>${label}</span><span style="font-weight:700;color:${color}">${val} (${pct(val)}%)</span>
-                            </div>
-                            <div style="background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;height:22px">
-                                <div style="height:100%;width:${pct(val)}%;background:${color};border-radius:8px;transition:width .6s ease"></div>
-                            </div>
-                        </div>`).join('')}
-                </div>`;
-        }
-    }
-
-    // ── Slide 4: women in tech ────────────────────────────────────────
-    function updateMulheres(mulheres) {
-        const grid = document.querySelector('.mulheres-grid');
-        if (!grid) return;
-
-        // Always show 3 cards, filling empties as placeholders
-        const cards = [];
-        for (let i = 0; i < 3; i++) {
-            const m = mulheres && mulheres[i];
-            if (m) {
-                cards.push(`
-                    <div class="mulher-card">
-                        <div class="mulher-placeholder">
-                            <div style="font-size:52px;margin-bottom:12px">👩‍💻</div>
-                            <h3 style="color:#f0abfc;font-size:17px;text-align:center">${escapeHtml(m.mulher)}</h3>
-                            <p style="color:rgba(255,255,255,.6);font-size:14px">${m.mencoes} menção${m.mencoes !== 1 ? 'ões' : ''}</p>
-                        </div>
-                    </div>`);
-            } else {
-                cards.push(`
-                    <div class="mulher-card">
-                        <div class="mulher-placeholder">
-                            <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
-                                <path d="M6 20C6 16.6863 8.68629 14 12 14C15.3137 14 18 16.6863 18 20" stroke="currentColor" stroke-width="1.5"/>
-                            </svg>
-                            <h3>Próxima Referência</h3>
-                            <p>Aguarde submissões</p>
-                        </div>
-                    </div>`);
-            }
-        }
-        grid.innerHTML = cards.join('');
-    }
-
-    // ── Slide 5: areas grid ───────────────────────────────────────────
-    function updateAreas(porArea) {
-        const areaItems = document.querySelectorAll('.area-item');
-        const areaMap = {};
-        (porArea || []).forEach(a => { areaMap[a.area] = a.total; });
-
-        areaItems.forEach(item => {
-            const nameEl  = item.querySelector('.area-name');
-            const countEl = item.querySelector('.area-count');
-            if (!nameEl || !countEl) return;
-            const name  = nameEl.textContent;
-            const count = areaMap[name] || 0;
-            countEl.textContent = count;
-            countEl.style.opacity = count > 0 ? '1' : '0.3';
-            if (count > 0) item.style.borderColor = '#ec4899';
-            else           item.style.borderColor  = 'transparent';
-        });
-    }
-
-    // ── Utility ───────────────────────────────────────────────────────
-    function escapeHtml(str) {
-        if (!str) return '';
-        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-
-    // ── Main fetch & update ────────────────────────────────────────────
-    async function fetchAndUpdate() {
-        try {
-            const res  = await fetch(`${API_BASE}/estatisticas`, { signal: AbortSignal.timeout(5000) });
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const data = await res.json();
-
-            updateStats(data);
-            updateTable(data.recentes);
-            updateCharts(data);
-            updateMulheres(data.mulheres);
-            updateAreas(data.porArea);
-            updateD3Charts(data);
-        } catch (err) {
-            console.warn('Dashboard: falha ao obter dados –', err.message);
-        }
-    }
-
-    // ── D3 Charts (Slide 7) ───────────────────────────────────────────
-    const D3_PINK   = '#ec4899';
-    const D3_PURPLE = '#a855f7';
-    const D3_TEAL   = '#10b981';
-    const D3_AMBER  = '#f59e0b';
-    const D3_COLORS = ['#ec4899','#a855f7','#10b981','#f59e0b','#38bdf8','#fb7185','#34d399'];
-
-    function d3Dim(svgId, h) {
-        const el = document.getElementById(svgId);
-        if (!el) return null;
-        const w = el.parentElement.clientWidth - 32;
-        el.setAttribute('width', w);
-        el.setAttribute('height', h);
-        return { w, h, m: { top:8, right:16, bottom:36, left:44 } };
-    }
-
-    function d3GridH(g, yScale, w) {
-        g.append('g').attr('class','d3-grid')
-         .call(d3.axisLeft(yScale).tickSize(-w).tickFormat(''))
-         .select('.domain').remove();
-    }
-
-    function d3DrawTipo(stats) {
-        const d = d3Dim('d3-bar-tipo', 180);
-        if (!d) return;
-        const svg = d3.select('#d3-bar-tipo');
-        svg.selectAll('*').remove();
-        const data = [
-            { label:'Alunos',   val: stats.alunos   || 0, color: D3_PINK   },
-            { label:'Docentes', val: stats.docentes  || 0, color: D3_PURPLE },
-        ];
-        const iW = d.w - d.m.left - d.m.right;
-        const iH = d.h - d.m.top  - d.m.bottom;
-        const g  = svg.append('g').attr('transform',`translate(${d.m.left},${d.m.top})`);
-        const x  = d3.scaleBand().domain(data.map(v=>v.label)).range([0,iW]).padding(.35);
-        const y  = d3.scaleLinear().domain([0, Math.max(d3.max(data,v=>v.val)+1,2)]).range([iH,0]);
-        d3GridH(g, y, iW);
-        g.append('g').attr('class','d3-axis').attr('transform',`translate(0,${iH})`).call(d3.axisBottom(x));
-        g.append('g').attr('class','d3-axis').call(d3.axisLeft(y).ticks(4).tickFormat(d3.format('d')));
-        g.selectAll('.bar').data(data).join('rect')
-          .attr('x',v=>x(v.label)).attr('width',x.bandwidth())
-          .attr('y',iH).attr('height',0).attr('fill',v=>v.color).attr('rx',5)
-          .transition().duration(600)
-          .attr('y',v=>y(v.val)).attr('height',v=>iH-y(v.val));
-        g.selectAll('.lbl').data(data).join('text')
-          .attr('x',v=>x(v.label)+x.bandwidth()/2).attr('y',v=>y(v.val)-4)
-          .attr('text-anchor','middle').attr('fill','rgba(255,255,255,.85)').attr('font-size',12).attr('font-weight',700)
-          .text(v=>v.val);
-    }
-
-    function d3DrawArea(stats) {
-        const data = stats.porArea || [];
-        if (!data.length) return;
-        const d = d3Dim('d3-bar-area', Math.max(data.length*38+50, 180));
-        if (!d) return;
-        const svg = d3.select('#d3-bar-area');
-        svg.selectAll('*').remove();
-        const iW = d.w - d.m.left - d.m.right - 10;
-        const iH = d.h - d.m.top  - d.m.bottom;
-        const g  = svg.append('g').attr('transform',`translate(${d.m.left},${d.m.top})`);
-        const y  = d3.scaleBand().domain(data.map(v=>v.area)).range([0,iH]).padding(.3);
-        const x  = d3.scaleLinear().domain([0, d3.max(data,v=>v.total)+1]).range([0,iW]);
-        g.append('g').attr('class','d3-axis').call(d3.axisLeft(y).tickSize(0)).select('.domain').remove();
-        g.append('g').attr('class','d3-axis').attr('transform',`translate(0,${iH})`).call(d3.axisBottom(x).ticks(4).tickFormat(d3.format('d')));
-        g.selectAll('.bar').data(data).join('rect')
-          .attr('y',v=>y(v.area)).attr('height',y.bandwidth())
-          .attr('x',0).attr('width',0).attr('fill',(_,i)=>D3_COLORS[i%D3_COLORS.length]).attr('rx',4)
-          .transition().duration(600).attr('width',v=>x(v.total));
-        g.selectAll('.lbl').data(data).join('text')
-          .attr('y',v=>y(v.area)+y.bandwidth()/2+4).attr('x',v=>x(v.total)+5)
-          .attr('fill','rgba(255,255,255,.85)').attr('font-size',11).attr('font-weight',700)
-          .text(v=>v.total);
-    }
-
-    function d3DrawNivel(stats) {
-        const nd   = stats.nivelDist || {};
-        const data = [
-            { label:'Baixo (0–3)', val: nd.baixo||0, color:'#f43f5e' },
-            { label:'Médio (4–6)', val: nd.medio||0, color: D3_AMBER  },
-            { label:'Alto (7–10)', val: nd.alto ||0, color: D3_TEAL   },
-        ];
-        const d = d3Dim('d3-bar-nivel', 180);
-        if (!d) return;
-        const svg = d3.select('#d3-bar-nivel');
-        svg.selectAll('*').remove();
-        const iW = d.w - d.m.left - d.m.right;
-        const iH = d.h - d.m.top  - d.m.bottom;
-        const g  = svg.append('g').attr('transform',`translate(${d.m.left},${d.m.top})`);
-        const x  = d3.scaleBand().domain(data.map(v=>v.label)).range([0,iW]).padding(.3);
-        const y  = d3.scaleLinear().domain([0, Math.max(d3.max(data,v=>v.val)+1,2)]).range([iH,0]);
-        d3GridH(g, y, iW);
-        g.append('g').attr('class','d3-axis').attr('transform',`translate(0,${iH})`).call(d3.axisBottom(x));
-        g.append('g').attr('class','d3-axis').call(d3.axisLeft(y).ticks(4).tickFormat(d3.format('d')));
-        g.selectAll('.bar').data(data).join('rect')
-          .attr('x',v=>x(v.label)).attr('width',x.bandwidth())
-          .attr('y',iH).attr('height',0).attr('fill',v=>v.color).attr('rx',5)
-          .transition().duration(600).attr('y',v=>y(v.val)).attr('height',v=>iH-y(v.val));
-        g.selectAll('.lbl').data(data).join('text')
-          .attr('x',v=>x(v.label)+x.bandwidth()/2).attr('y',v=>y(v.val)-4)
-          .attr('text-anchor','middle').attr('fill','rgba(255,255,255,.85)').attr('font-size',12).attr('font-weight',700)
-          .text(v=>v.val);
-    }
-
-    function d3DrawDonut(stats) {
-        const sim  = stats.comProg  || 0;
-        const nao  = (stats.total   || 0) - sim;
-        const data = [
-            { label:'Com programação', val:sim, color: D3_TEAL },
-            { label:'Sem programação', val:nao, color:'rgba(255,255,255,.15)' },
-        ].filter(v=>v.val>0);
-        const d = d3Dim('d3-donut-prog', 180);
-        if (!d) return;
-        const svg = d3.select('#d3-donut-prog');
-        svg.selectAll('*').remove();
-        const r   = Math.min(d.w, d.h)/2 - 16;
-        const g   = svg.append('g').attr('transform',`translate(${d.w/2},${d.h/2})`);
-        const pie = d3.pie().value(v=>v.val).sort(null);
-        const arc = d3.arc().innerRadius(r*.55).outerRadius(r);
-        g.selectAll('path').data(pie(data)).join('path')
-          .attr('fill',v=>v.data.color).attr('stroke','rgba(0,0,0,.2)').attr('stroke-width',2)
-          .transition().duration(600)
-          .attrTween('d', function(v){ const i=d3.interpolate({startAngle:0,endAngle:0},v); return t=>arc(i(t)); });
-        g.append('text').attr('text-anchor','middle').attr('dy','-.1em')
-         .attr('fill','#fff').attr('font-size',22).attr('font-weight',800).text(sim);
-        g.append('text').attr('text-anchor','middle').attr('dy','1.1em')
-         .attr('fill','rgba(255,255,255,.6)').attr('font-size',11).text('com prog.');
-    }
-
-    function d3DrawMulheres(stats) {
-        const data = (stats.mulheres || []).slice(0, 8);
-        const d = d3Dim('d3-bar-mulheres', data.length ? 180 : 60);
-        if (!d) return;
-        const svg = d3.select('#d3-bar-mulheres');
-        svg.selectAll('*').remove();
-        if (!data.length) {
-            svg.append('text').attr('x', d.w/2).attr('y', 40)
-               .attr('text-anchor','middle').attr('fill','rgba(255,255,255,.4)').attr('font-size',13)
-               .text('Sem dados ainda');
-            return;
-        }
-        const iW = d.w - d.m.left - d.m.right;
-        const iH = d.h - d.m.top  - d.m.bottom;
-        const g  = svg.append('g').attr('transform',`translate(${d.m.left},${d.m.top})`);
-        const x  = d3.scaleBand().domain(data.map(v=>v.mulher)).range([0,iW]).padding(.25);
-        const y  = d3.scaleLinear().domain([0, d3.max(data,v=>v.mencoes)+1]).range([iH,0]);
-        d3GridH(g, y, iW);
-        g.append('g').attr('class','d3-axis').attr('transform',`translate(0,${iH})`)
-         .call(d3.axisBottom(x).tickFormat(v=>v.length>12?v.slice(0,11)+'…':v));
-        g.append('g').attr('class','d3-axis').call(d3.axisLeft(y).ticks(4).tickFormat(d3.format('d')));
-        g.selectAll('.bar').data(data).join('rect')
-          .attr('x',v=>x(v.mulher)).attr('width',x.bandwidth())
-          .attr('y',iH).attr('height',0).attr('fill',(_,i)=>D3_COLORS[i%D3_COLORS.length]).attr('rx',5)
-          .transition().duration(600).attr('y',v=>y(v.mencoes)).attr('height',v=>iH-y(v.mencoes));
-        g.selectAll('.lbl').data(data).join('text')
-          .attr('x',v=>x(v.mulher)+x.bandwidth()/2).attr('y',v=>y(v.mencoes)-4)
-          .attr('text-anchor','middle').attr('fill','rgba(255,255,255,.85)').attr('font-size',11).attr('font-weight',700)
-          .text(v=>v.mencoes);
-    }
-
-    function updateD3KPIs(data) {
-        const set = (id, val, suf='') => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = val + suf;
-        };
-        set('d3-kpi-total',   data.total    || 0);
-        set('d3-kpi-alunos',  data.alunos   || 0);
-        set('d3-kpi-docentes',data.docentes  || 0);
-        set('d3-kpi-nivel',   (data.avgNivel || 0) + '/10');
-    }
-
-    function updateD3Charts(data) {
-        updateD3KPIs(data);
-        d3DrawTipo(data);
-        d3DrawArea(data);
-        d3DrawNivel(data);
-        d3DrawDonut(data);
-        d3DrawMulheres(data);
-    }
-
-    // ── D3 Simulate ───────────────────────────────────────────────────
-    const D3_NOMES    = ['Ana Silva','João Costa','Maria Santos','Pedro Ferreira','Inês Rodrigues'];
-    const D3_AREAS    = ['Programação','Inteligência Artificial','Jogos Digitais','Redes','Multimédia','Robótica'];
-    const D3_MULHERES = ['Ada Lovelace','Grace Hopper','Hedy Lamarr','Katherine Johnson','Margaret Hamilton'];
-
-    async function d3Simulate() {
-        const payload = {
-            tipo:        Math.random() > .45 ? 'aluno' : 'docente',
-            nome:        D3_NOMES[Math.floor(Math.random()*D3_NOMES.length)] + ' ' + Math.floor(Math.random()*99),
-            turma:       Math.random() > .5 ? `${Math.floor(Math.random()*3)+10}ºA` : null,
-            area:        D3_AREAS[Math.floor(Math.random()*D3_AREAS.length)],
-            nivel:       Math.floor(Math.random()*11),
-            programacao: Math.random() > .4 ? 'sim' : 'nao',
-            linguagens:  ['Python','JavaScript','HTML/CSS','Scratch'].filter(()=>Math.random()>.5),
-            mulher:      Math.random() > .3 ? D3_MULHERES[Math.floor(Math.random()*D3_MULHERES.length)] : null,
-            comentario:  null,
-        };
-        try {
-            const res = await fetch(`${API_BASE}/submissoes`, {
-                method:'POST', headers:{'Content-Type':'application/json'},
-                body: JSON.stringify(payload),
-            });
-            if (!res.ok) throw new Error();
-            fetchAndUpdate();
-        } catch { console.warn('Simulate failed'); }
-    }
-
-    // Initial fetch + polling
-    fetchAndUpdate();
-    setInterval(fetchAndUpdate, REFRESH_MS);
-});
+loadData();
+setInterval(loadData,8000);
 </script>
 </body>
 </html>

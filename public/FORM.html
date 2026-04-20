@@ -2,394 +2,248 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
-<title>Formulário TIC</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Vozes da Tecnologia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-    --primary: #6a11cb;
-    --secondary: #2575fc;
-    --accent: #1cc88a;
+  --p1:#6a11cb; --p2:#2575fc; --accent:#e040fb; --ok:#00e5a0;
+  --bg:#0d0b1e; --surface:rgba(255,255,255,.06); --border:rgba(255,255,255,.12);
+  --text:#f0ecff; --muted:rgba(240,236,255,.55);
 }
-
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container {
-    background: #fff;
-    width: 95%;
-    max-width: 520px;
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 15px 35px rgba(0,0,0,.25);
-    animation: fadeIn 0.8s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-h2 { text-align: center; color: #333; }
-
-.progress {
-    height: 8px;
-    background: #eee;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 20px;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--accent), var(--secondary));
-    transition: width 0.3s ease;
-}
-
-label { margin-top: 15px; font-weight: bold; display: block; }
-
-input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    margin-top: 5px;
-    transition: border 0.3s, box-shadow 0.3s;
-}
-
-input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: var(--secondary);
-    box-shadow: 0 0 0 2px rgba(37,117,252,0.15);
-}
-
-.range-value {
-    text-align: center;
-    font-weight: bold;
-    color: var(--secondary);
-    margin-top: 5px;
-    animation: pulse 0.3s;
-}
-
-@keyframes pulse {
-    from { transform: scale(1.1); }
-    to   { transform: scale(1); }
-}
-
-button {
-    margin-top: 25px;
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: #fff;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-button:disabled { opacity: 0.6; cursor: not-allowed; }
-
-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-}
-
-.hidden { display: none !important; }
-
-.success-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.success-box {
-    background: white;
-    padding: 32px 28px 28px;
-    border-radius: 20px;
-    text-align: center;
-    animation: pop 0.4s ease;
-    width: 90%;
-    max-width: 360px;
-    cursor: pointer;
-}
-
-@keyframes pop {
-    from { transform: scale(0.8); opacity: 0; }
-    to   { transform: scale(1);   opacity: 1; }
-}
-
-.checkbox-group { margin-top: 10px; }
-
-.check {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 8px 0;
-}
-
-.check input { width: 16px; height: 16px; }
-
-.success-box h3 { margin: 0 0 12px 0; font-size: 20px; }
-.success-box p  { margin: 0; font-size: 15px; }
-
-.error-msg {
-    color: #e53e3e;
-    font-size: 13px;
-    margin-top: 8px;
-    display: none;
-}
-
-.api-status {
-    text-align: center;
-    font-size: 12px;
-    color: #888;
-    margin-top: 8px;
-}
-
-.api-status.ok    { color: #1cc88a; }
-.api-status.error { color: #e53e3e; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:var(--bg);font-family:'Sora',sans-serif;
+  display:flex;justify-content:center;align-items:flex-start;
+  padding:32px 16px 64px;color:var(--text);overflow-x:hidden;position:relative}
+body::before{content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%,rgba(106,17,203,.35) 0%,transparent 70%),
+    radial-gradient(ellipse 50% 50% at 80% 80%,rgba(37,117,252,.25) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 30% at 55% 50%,rgba(224,64,251,.15) 0%,transparent 60%);
+  pointer-events:none}
+.card{position:relative;z-index:1;width:100%;max-width:520px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:24px;padding:36px 32px;backdrop-filter:blur(24px);
+  animation:rise .7s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.logo{text-align:center;margin-bottom:28px}
+.logo-emoji{font-size:2.4rem;display:block;margin-bottom:6px}
+.logo h1{font-size:1.5rem;font-weight:700;
+  background:linear-gradient(90deg,#e040fb,#2575fc);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo p{font-size:.82rem;color:var(--muted);margin-top:4px}
+.progress-bar-wrap{height:4px;border-radius:4px;background:rgba(255,255,255,.1);margin-bottom:28px;overflow:hidden}
+.progress-bar-fill{height:100%;width:0%;
+  background:linear-gradient(90deg,var(--p1),var(--accent),var(--p2));
+  transition:width .4s ease;border-radius:4px}
+.field{margin-bottom:20px}
+.field label{display:block;font-size:.78rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.field label span{color:var(--accent)}
+.field input,.field select,.field textarea{width:100%;background:var(--surface);
+  border:1px solid var(--border);border-radius:12px;padding:12px 14px;
+  color:var(--text);font-family:'Sora',sans-serif;font-size:.92rem;
+  transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;
+  border-color:var(--accent);box-shadow:0 0 0 3px rgba(224,64,251,.18)}
+.field select option{background:#1a0b2e;color:var(--text)}
+.field textarea{resize:vertical;min-height:88px}
+.range-wrap{position:relative;padding-top:28px}
+.range-val{position:absolute;right:0;top:0;font-size:.95rem;font-weight:700;color:var(--accent)}
+.field input[type=range]{padding:0;height:6px;border:none;border-radius:99px;
+  background:rgba(255,255,255,.15);cursor:pointer;box-shadow:none}
+.checkbox-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.checkbox-group label{display:flex;align-items:center;gap:8px;font-size:.85rem;
+  font-weight:400;text-transform:none;letter-spacing:0;color:var(--text);cursor:pointer;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:9px 12px;transition:border-color .2s}
+.checkbox-group label:hover{border-color:var(--accent)}
+.checkbox-group input[type=checkbox]{width:16px;height:16px;min-width:16px;
+  accent-color:var(--accent);padding:0;margin:0;border:none}
+.chip-group{display:flex;gap:10px;margin-top:4px}
+.chip{flex:1;padding:10px 0;text-align:center;border-radius:12px;
+  border:1px solid var(--border);font-size:.88rem;font-weight:600;cursor:pointer;
+  background:var(--surface);color:var(--muted);transition:all .2s}
+.chip.active{background:linear-gradient(135deg,var(--p1),var(--accent));
+  border-color:transparent;color:#fff}
+.btn-submit{width:100%;padding:16px;
+  background:linear-gradient(135deg,var(--p1),var(--accent),var(--p2));
+  border:none;border-radius:14px;color:#fff;font-family:'Sora',sans-serif;
+  font-size:1rem;font-weight:700;cursor:pointer;margin-top:8px;
+  letter-spacing:.03em;transition:transform .15s,opacity .15s}
+.btn-submit:hover{transform:translateY(-2px);opacity:.95}
+.btn-submit:active{transform:translateY(0)}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.75);
+  justify-content:center;align-items:center;backdrop-filter:blur(6px)}
+.overlay.show{display:flex;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.success-box{background:rgba(20,12,40,.95);border:1px solid rgba(224,64,251,.35);
+  border-radius:24px;padding:40px 32px;text-align:center;max-width:340px;width:90%}
+.success-box .big-emoji{font-size:3rem;display:block;margin-bottom:12px}
+.success-box h2{font-size:1.3rem;color:var(--ok);margin-bottom:8px}
+.success-box p{font-size:.9rem;color:var(--muted);line-height:1.6}
+.btn-close{margin-top:20px;background:transparent;border:1px solid var(--border);
+  border-radius:10px;padding:10px 24px;color:var(--muted);cursor:pointer;
+  font-family:'Sora',sans-serif;font-size:.85rem}
+.hidden{display:none!important}
 </style>
 </head>
-
 <body>
-<div class="container">
-  <h2>Formulário TIC</h2>
-
-  <div class="progress">
-    <div class="progress-bar" id="progressBar"></div>
+<div class="card">
+  <div class="logo">
+    <span class="logo-emoji">✨</span>
+    <h1>Vozes da Tecnologia</h1>
+    <p>A tua voz faz parte desta história</p>
   </div>
-
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
   <form id="form" novalidate>
-
-    <label>És aluno ou docente? *</label>
-    <select id="tipo" required>
-      <option value="">Seleciona</option>
-      <option value="aluno">Aluno</option>
-      <option value="docente">Docente</option>
-    </select>
-
-    <label>Nome *</label>
-    <input type="text" id="nome" required placeholder="O teu nome completo">
-
-    <div id="campoTurma" class="hidden">
-      <label>Turma *</label>
-      <input type="text" id="turma" placeholder="ex: 10ºA">
+    <div class="field">
+      <label>Fazes parte desta história como… <span>*</span></label>
+      <div class="chip-group">
+        <div class="chip" data-val="aluno" onclick="setTipo(this)">🎒 Aluno</div>
+        <div class="chip" data-val="docente" onclick="setTipo(this)">🏫 Docente</div>
+      </div>
+      <input type="hidden" id="tipo">
     </div>
-
-    <label>Área de interesse em TIC</label>
-    <select id="area">
-      <option value="Programação">Programação</option>
-      <option value="Inteligência Artificial">Inteligência Artificial</option>
-      <option value="Jogos Digitais">Jogos Digitais</option>
-      <option value="Redes">Redes</option>
-      <option value="Multimédia">Multimédia</option>
-      <option value="Robótica">Robótica</option>
-    </select>
-
-    <label>Nível de interesse em TIC</label>
-    <input type="range" min="0" max="10" value="5" id="range">
-    <div class="range-value" id="rangeValue">5 / 10</div>
-
-    <label>Já tiveste contacto com programação?</label>
-    <select id="programacao">
-      <option value="nao">Não</option>
-      <option value="sim">Sim</option>
-    </select>
-
-    <div id="linguagens" class="hidden">
-      <label>Linguagens conhecidas</label>
-      <div class="checkbox-group">
-        <label class="check"><input type="checkbox" value="Python"><span>Python</span></label>
-        <label class="check"><input type="checkbox" value="JavaScript"><span>JavaScript</span></label>
-        <label class="check"><input type="checkbox" value="HTML/CSS"><span>HTML/CSS</span></label>
-        <label class="check"><input type="checkbox" value="Scratch"><span>Scratch</span></label>
+    <div class="field">
+      <label>O teu nome <span>*</span></label>
+      <input type="text" id="nome" placeholder="Como te chamas?">
+    </div>
+    <div class="field hidden" id="campoTurma">
+      <label>Turma</label>
+      <input type="text" id="turma" placeholder="ex: 10.º A">
+    </div>
+    <div class="field">
+      <label>Onde queres explorar a tecnologia?</label>
+      <select id="area">
+        <option value="Programação">💻 Programação</option>
+        <option value="Inteligência Artificial">🤖 Inteligência Artificial</option>
+        <option value="Jogos Digitais">🎮 Jogos Digitais</option>
+        <option value="Redes">🌐 Redes</option>
+        <option value="Multimédia">🎨 Multimédia</option>
+        <option value="Robótica">🦾 Robótica</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Nível de curiosidade em TIC</label>
+      <div class="range-wrap">
+        <span class="range-val" id="rangeVal">5 / 10</span>
+        <input type="range" min="0" max="10" value="5" step="1" id="nivelRange">
       </div>
     </div>
-
-    <label>Mulher inspiradora na tecnologia</label>
-    <input type="text" id="mulher" placeholder="ex: Ada Lovelace">
-
-    <label>Comentário ou sugestão</label>
-    <textarea id="comentario" rows="4" placeholder="Escreve aqui..."></textarea>
-
-    <div class="error-msg" id="errorMsg">Ocorreu um erro ao submeter. Tenta novamente.</div>
-
-    <button type="submit" id="submitBtn">Submeter</button>
-    <p class="api-status" id="apiStatus">A verificar ligação ao servidor...</p>
+    <div class="field">
+      <label>Já experimentaste programar?</label>
+      <select id="programacao">
+        <option value="nao">Não ainda — mas tenho curiosidade!</option>
+        <option value="sim">Sim, já explorei um pouco</option>
+      </select>
+    </div>
+    <div class="field hidden" id="campoLinguagens">
+      <label>Linguagens que já conheces</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" value="Python"> Python</label>
+        <label><input type="checkbox" value="JavaScript"> JavaScript</label>
+        <label><input type="checkbox" value="HTML/CSS"> HTML / CSS</label>
+        <label><input type="checkbox" value="Scratch"> Scratch</label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Uma mulher que te inspira na tecnologia</label>
+      <input type="text" id="mulher" placeholder="ex: Ada Lovelace, Grace Hopper…">
+    </div>
+    <div class="field">
+      <label>Que mensagem deixas ao futuro?</label>
+      <textarea id="comentario" placeholder="Partilha aqui o teu pensamento…"></textarea>
+    </div>
+    <button type="submit" class="btn-submit" id="submitBtn">✨ Juntar a minha voz</button>
   </form>
 </div>
-
-<!-- Success Modal -->
-<div class="success-modal hidden" id="modal">
-  <div class="success-box" id="successBox">
-    <h3>✅ Submissão concluída</h3>
-    <p>Obrigado pela participação.<br><small style="color:#888">Clica para fechar</small></p>
+<div class="overlay" id="overlay">
+  <div class="success-box">
+    <span class="big-emoji">🌟</span>
+    <h2>Voz adicionada!</h2>
+    <p>Obrigado pela tua participação. Estás a ajudar a construir uma visão mais humana da tecnologia.</p>
+    <button class="btn-close" onclick="closeModal()">Fechar</button>
   </div>
 </div>
-
 <script>
-// ── Config ──────────────────────────────────────────────────────
 const API_BASE = '/api';
+let tipoVal = '';
 
-// ── Elements ────────────────────────────────────────────────────
-const form       = document.getElementById('form');
-const modal      = document.getElementById('modal');
-const successBox = document.getElementById('successBox');
-const range      = document.getElementById('range');
-const rangeValue = document.getElementById('rangeValue');
-const progSelect = document.getElementById('programacao');
-const linguagens = document.getElementById('linguagens');
-const progressBar= document.getElementById('progressBar');
-const tipo       = document.getElementById('tipo');
-const campoTurma = document.getElementById('campoTurma');
-const turmaInput = document.getElementById('turma');
-const area       = document.getElementById('area');
-const submitBtn  = document.getElementById('submitBtn');
-const errorMsg   = document.getElementById('errorMsg');
-const apiStatus  = document.getElementById('apiStatus');
+function setTipo(el) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  tipoVal = el.dataset.val;
+  document.getElementById('tipo').value = tipoVal;
+  document.getElementById('campoTurma').classList.toggle('hidden', tipoVal !== 'aluno');
+  updateProgress();
+}
 
-// ── Progress bar ─────────────────────────────────────────────────
-const allFields = document.querySelectorAll('input:not([type=checkbox]):not([type=range]), select, textarea');
-allFields.forEach(f => f.addEventListener('input', updateProgress));
+const rangeEl = document.getElementById('nivelRange');
+const rangeValEl = document.getElementById('rangeVal');
+rangeEl.addEventListener('input', () => {
+  rangeValEl.textContent = rangeEl.value + ' / 10';
+  updateProgress();
+});
+
+document.getElementById('programacao').addEventListener('change', function() {
+  document.getElementById('campoLinguagens').classList.toggle('hidden', this.value !== 'sim');
+});
 
 function updateProgress() {
-  let total = 0, filled = 0;
-  allFields.forEach(f => {
-    if (f.closest('.hidden')) return;
-    total++;
-    if (f.value.trim()) filled++;
-  });
-  progressBar.style.width = total ? (filled / total * 100) + '%' : '0%';
+  const filled = [tipoVal, document.getElementById('nome').value].filter(Boolean).length;
+  document.getElementById('progressBar').style.width = (filled / 2 * 100) + '%';
 }
+document.getElementById('nome').addEventListener('input', updateProgress);
 
-// ── Range ────────────────────────────────────────────────────────
-range.addEventListener('input', () => { rangeValue.textContent = range.value + ' / 10'; });
-
-// ── Show/hide conditional fields ─────────────────────────────────
-progSelect.addEventListener('change', () => {
-  linguagens.classList.toggle('hidden', progSelect.value !== 'sim');
-  updateProgress();
-});
-
-tipo.addEventListener('change', () => {
-  campoTurma.classList.add('hidden');
-  turmaInput.required = false;
-
-  const admin = area.querySelector('option[value="Administrativa"]');
-  if (admin) admin.remove();
-
-  if (tipo.value === 'aluno') {
-    campoTurma.classList.remove('hidden');
-    turmaInput.required = true;
-  }
-  if (tipo.value === 'docente') {
-    const opt = document.createElement('option');
-    opt.value = 'Administrativa';
-    opt.textContent = 'Administrativa';
-    area.appendChild(opt);
-  }
-  updateProgress();
-});
-
-// ── Server health check ──────────────────────────────────────────
-async function checkServer() {
-  try {
-    const res = await fetch(`${API_BASE}/estatisticas`, { signal: AbortSignal.timeout(3000) });
-    if (res.ok) {
-      apiStatus.textContent = '🟢 Servidor ligado';
-      apiStatus.className = 'api-status ok';
-    } else { throw new Error(); }
-  } catch {
-    apiStatus.textContent = '🔴 Servidor não encontrado – inicia o server.js';
-    apiStatus.className = 'api-status error';
-  }
-}
-checkServer();
-
-// ── Form Submit ──────────────────────────────────────────────────
-form.addEventListener('submit', async e => {
+document.getElementById('form').addEventListener('submit', async e => {
   e.preventDefault();
-  errorMsg.style.display = 'none';
+  const nome = document.getElementById('nome').value.trim();
+  if (!tipoVal) { alert('Indica se és aluno ou docente'); return; }
+  if (!nome)    { alert('O teu nome é obrigatório'); return; }
 
-  // Basic validation
-  const nomeVal = document.getElementById('nome').value.trim();
-  const tipoVal = tipo.value;
-  if (!tipoVal || !nomeVal) {
-    errorMsg.textContent = 'Por favor preenche os campos obrigatórios (*)';
-    errorMsg.style.display = 'block';
-    return;
-  }
-  if (tipoVal === 'aluno' && !turmaInput.value.trim()) {
-    errorMsg.textContent = 'Alunos devem indicar a turma.';
-    errorMsg.style.display = 'block';
-    return;
-  }
-
-  // Collect checked languages
-  const selectedLangs = [...document.querySelectorAll('#linguagens input[type=checkbox]:checked')]
-    .map(cb => cb.value);
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = 'A enviar…';
 
   const payload = {
-    tipo:        tipoVal,
-    nome:        nomeVal,
-    turma:       turmaInput.value.trim() || null,
-    area:        area.value,
-    nivel:       Number(range.value),
-    programacao: progSelect.value,
-    linguagens:  selectedLangs.length ? selectedLangs : null,
-    mulher:      document.getElementById('mulher').value.trim() || null,
-    comentario:  document.getElementById('comentario').value.trim() || null,
+    tipo: tipoVal, nome,
+    turma:       document.getElementById('turma').value.trim(),
+    area:        document.getElementById('area').value,
+    nivel:       parseInt(rangeEl.value),
+    programacao: document.getElementById('programacao').value,
+    linguagens:  [...document.querySelectorAll('input[type=checkbox]:checked')].map(x => x.value),
+    mulher:      document.getElementById('mulher').value.trim(),
+    comentario:  document.getElementById('comentario').value.trim()
   };
 
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'A enviar...';
-
   try {
-    const res = await fetch(`${API_BASE}/submissoes`, {
+    const res = await fetch(API_BASE + '/submissoes', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(payload)
     });
-
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.erro || 'Erro desconhecido');
+    const json = await res.json();
+    if (res.ok && json.id) {
+      document.getElementById('overlay').classList.add('show');
+      document.getElementById('form').reset();
+      tipoVal = '';
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      document.getElementById('progressBar').style.width = '0%';
+      rangeValEl.textContent = '5 / 10';
+    } else {
+      alert('Erro: ' + (json.erro || 'tente novamente'));
     }
-
-    // Show success
-    modal.classList.remove('hidden');
-    form.reset();
-    progressBar.style.width = '0%';
-    linguagens.classList.add('hidden');
-    campoTurma.classList.add('hidden');
-    rangeValue.textContent = '5 / 10';
-
-  } catch (err) {
-    errorMsg.textContent = 'Erro: ' + err.message;
-    errorMsg.style.display = 'block';
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Submeter';
+  } catch(err) {
+    alert('Sem ligação ao servidor. Verifica a rede e tenta novamente.');
   }
+  btn.disabled = false; btn.textContent = '✨ Juntar a minha voz';
 });
 
-successBox.addEventListener('click', () => modal.classList.add('hidden'));
+function closeModal() {
+  document.getElementById('overlay').classList.remove('show');
+}
 </script>
 </body>
 </html>
