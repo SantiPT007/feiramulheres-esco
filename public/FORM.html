@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vozes da Tecnologia</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -140,15 +141,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
         <option value="sim">Sim, já explorei um pouco</option>
       </select>
     </div>
-    <div class="field hidden" id="campoLinguagens">
-      <label>Linguagens que já conheces</label>
-      <div class="checkbox-group">
-        <label><input type="checkbox" value="Python"> Python</label>
-        <label><input type="checkbox" value="JavaScript"> JavaScript</label>
-        <label><input type="checkbox" value="HTML/CSS"> HTML / CSS</label>
-        <label><input type="checkbox" value="Scratch"> Scratch</label>
-      </div>
-    </div>
     <div class="field">
       <label>Uma mulher que te inspira na tecnologia</label>
       <input type="text" id="mulher" placeholder="ex: Ada Lovelace, Grace Hopper…">
@@ -188,9 +180,7 @@ rangeEl.addEventListener('input', () => {
   updateProgress();
 });
 
-document.getElementById('programacao').addEventListener('change', function() {
-  document.getElementById('campoLinguagens').classList.toggle('hidden', this.value !== 'sim');
-});
+
 
 function updateProgress() {
   const filled = [tipoVal, document.getElementById('nome').value].filter(Boolean).length;
@@ -213,7 +203,7 @@ document.getElementById('form').addEventListener('submit', async e => {
     area:        document.getElementById('area').value,
     nivel:       parseInt(rangeEl.value),
     programacao: document.getElementById('programacao').value,
-    linguagens:  [...document.querySelectorAll('input[type=checkbox]:checked')].map(x => x.value),
+    linguagens:  [],
     mulher:      document.getElementById('mulher').value.trim(),
     comentario:  document.getElementById('comentario').value.trim()
   };
