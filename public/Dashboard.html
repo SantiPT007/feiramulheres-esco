@@ -91,10 +91,10 @@ body{background:var(--bg);font-family:'Sora',sans-serif;color:var(--text);
 .nivel-bar-wrap{display:flex;align-items:center;gap:8px}
 .nivel-bar{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--p2),var(--pink));flex-shrink:0}
 /* SLIDE 3 CHARTS */
-.charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1}
-.chart-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:20px;display:flex;flex-direction:column}
-.chart-card h3{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:16px}
-.chart-card svg{width:100%;height:280px;display:block;overflow:visible}
+.charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;min-height:0}
+.chart-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:20px;display:flex;flex-direction:column;min-height:0}
+.chart-card h3{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:16px;flex-shrink:0}
+.chart-card svg{width:100%;flex:1;min-height:0;display:block;overflow:visible}
 /* SLIDE 4 MULHERES */
 .mulheres-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;align-content:start}
 .mulher-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:20px;display:flex;align-items:center;gap:14px}
@@ -426,8 +426,9 @@ function renderCharts(d){d=d||window._lastData;if(!d)return;setTimeout(()=>{rend
 
 function renderBarAreas(areas){
   const container=document.getElementById('chartAreas').parentElement;
-  const W=container.clientWidth-40,H=280;
-  const svg=d3.select('#chartAreas').attr('width',W).attr('height',H);
+  const rect=document.getElementById('chartAreas').getBoundingClientRect();
+  const W=container.clientWidth-40,H=Math.max(rect.height||400,200);
+  const svg=d3.select('#chartAreas').attr('viewBox',`0 0 ${W} ${H}`).attr('preserveAspectRatio','none');
   svg.selectAll('*').remove();
   if(!areas.length){svg.append('text').attr('x',W/2).attr('y',H/2).attr('fill','rgba(255,255,255,.3)').attr('text-anchor','middle').attr('font-size',13).text('Sem dados ainda');return;}
   const m={top:10,right:50,bottom:30,left:130},w=W-m.left-m.right,h=H-m.top-m.bottom;
@@ -454,8 +455,9 @@ function renderBarAreas(areas){
 
 function renderBarNiveis(niveis){
   const container=document.getElementById('chartNiveis').parentElement;
-  const W=container.clientWidth-40,H=280;
-  const svg=d3.select('#chartNiveis').attr('width',W).attr('height',H);
+  const rect=document.getElementById('chartNiveis').getBoundingClientRect();
+  const W=container.clientWidth-40,H=Math.max(rect.height||400,200);
+  const svg=d3.select('#chartNiveis').attr('viewBox',`0 0 ${W} ${H}`).attr('preserveAspectRatio','none');
   svg.selectAll('*').remove();
   const m={top:10,right:20,bottom:48,left:40},w=W-m.left-m.right,h=H-m.top-m.bottom;
   const g=svg.append('g').attr('transform',`translate(${m.left},${m.top})`);
