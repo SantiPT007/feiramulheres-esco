@@ -422,7 +422,7 @@ function checkNotifications(d){
 }
 
 /* ── CHARTS D3 ── */
-function renderCharts(d){d=d||window._lastData;if(!d)return;setTimeout(()=>{renderBarAreas(d.areas||[]);renderBarNiveis(d.niveis||[]);},100);}
+function renderCharts(d){d=d||window._lastData;if(!d)return;setTimeout(()=>{renderBarAreas(d.areas||[]);renderBarNiveis(d.niveis||[]);},800);}
 
 function renderBarAreas(areas){
   const container=document.getElementById('chartAreas').parentElement;
