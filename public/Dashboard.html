@@ -94,7 +94,7 @@ body{background:var(--bg);font-family:'Sora',sans-serif;color:var(--text);
 .charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1}
 .chart-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:20px;display:flex;flex-direction:column}
 .chart-card h3{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:16px}
-.chart-card svg{flex:1}
+.chart-card svg{width:100%;height:280px;display:block;overflow:visible}
 /* SLIDE 4 MULHERES */
 .mulheres-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;align-content:start}
 .mulher-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:20px;display:flex;align-items:center;gap:14px}
@@ -426,7 +426,7 @@ function renderCharts(d){d=d||window._lastData;if(!d)return;setTimeout(()=>{rend
 
 function renderBarAreas(areas){
   const container=document.getElementById('chartAreas').parentElement;
-  const W=container.clientWidth-32,H=Math.max(container.clientHeight-48,220);
+  const W=container.clientWidth-40,H=280;
   const svg=d3.select('#chartAreas').attr('width',W).attr('height',H);
   svg.selectAll('*').remove();
   if(!areas.length){svg.append('text').attr('x',W/2).attr('y',H/2).attr('fill','rgba(255,255,255,.3)').attr('text-anchor','middle').attr('font-size',13).text('Sem dados ainda');return;}
@@ -454,7 +454,7 @@ function renderBarAreas(areas){
 
 function renderBarNiveis(niveis){
   const container=document.getElementById('chartNiveis').parentElement;
-  const W=container.clientWidth-32,H=Math.max(container.clientHeight-48,220);
+  const W=container.clientWidth-40,H=280;
   const svg=d3.select('#chartNiveis').attr('width',W).attr('height',H);
   svg.selectAll('*').remove();
   const m={top:10,right:20,bottom:48,left:40},w=W-m.left-m.right,h=H-m.top-m.bottom;
